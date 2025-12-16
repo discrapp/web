@@ -19,6 +19,48 @@ interface DiscData {
 const API_URL =
   'https://xhaogdigrsiwxdjmjzgx.supabase.co/functions/v1/lookup-qr-code';
 
+// Color map matching the mobile app
+const COLOR_MAP: Record<string, string> = {
+  Red: '#E74C3C',
+  Orange: '#E67E22',
+  Yellow: '#F1C40F',
+  Green: '#2ECC71',
+  Blue: '#3498DB',
+  Purple: '#9B59B6',
+  Pink: '#E91E63',
+  White: '#ECF0F1',
+  Black: '#2C3E50',
+  Gray: '#95A5A6',
+  Multi: 'rainbow',
+};
+
+function ColorDot({ color }: { color: string }) {
+  const colorValue = COLOR_MAP[color];
+
+  if (colorValue === 'rainbow') {
+    return (
+      <span
+        className="inline-block w-4 h-4 rounded-full mr-2 align-middle"
+        style={{
+          background:
+            'conic-gradient(#E74C3C 0deg 90deg, #F1C40F 90deg 180deg, #2ECC71 180deg 270deg, #3498DB 270deg 360deg)',
+        }}
+      />
+    );
+  }
+
+  if (colorValue) {
+    return (
+      <span
+        className="inline-block w-4 h-4 rounded-full mr-2 align-middle border border-gray-300"
+        style={{ backgroundColor: colorValue }}
+      />
+    );
+  }
+
+  return null;
+}
+
 export default function DiscLandingPage() {
   const params = useParams();
   const code = params?.code as string;
@@ -75,7 +117,13 @@ export default function DiscLandingPage() {
   if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-white dark:bg-zinc-900">
-        <p className="text-xl text-violet-700 dark:text-violet-300">Loading...</p>
+        <div className="flex flex-col items-center gap-4">
+          {/* Spinner */}
+          <div className="w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin" />
+          <p className="text-lg text-violet-700 dark:text-violet-300">
+            Looking up disc...
+          </p>
+        </div>
       </main>
     );
   }
@@ -127,7 +175,8 @@ export default function DiscLandingPage() {
             {disc?.manufacturer}
           </p>
           {disc?.color && (
-            <span className="inline-block mt-2 px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-100 rounded-full text-sm">
+            <span className="inline-flex items-center mt-2 px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-100 rounded-full text-sm">
+              <ColorDot color={disc.color} />
               {disc.color}
             </span>
           )}
