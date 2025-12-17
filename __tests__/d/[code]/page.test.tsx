@@ -3,6 +3,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 // Mock fetch
 global.fetch = jest.fn();
 
+// Mock navigator.clipboard
+Object.defineProperty(navigator, 'clipboard', {
+  value: {
+    writeText: jest.fn().mockResolvedValue(undefined),
+  },
+  writable: true,
+});
+
 // Mock the page component - we need to test it with mocked data
 jest.mock('next/navigation', () => ({
   useParams: () => ({ code: 'TEST123' }),
@@ -20,7 +28,7 @@ describe('Disc Landing Page', () => {
   it('shows loading state initially', () => {
     (global.fetch as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<DiscLandingPage />);
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    expect(screen.getByText(/looking up disc/i)).toBeInTheDocument();
   });
 
   it('displays disc information when found', async () => {
