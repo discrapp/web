@@ -168,6 +168,44 @@ pre-commit autoupdate           # Update hook versions
 - Optimize images using next/image
 - Handle loading and error states properly
 
+### Sentry Error Tracking - MANDATORY
+
+**CRITICAL:** All new code MUST use Sentry for error tracking.
+
+**Error boundaries are already configured:**
+
+- `src/app/error.tsx` - Page-level error boundary
+- `src/app/global-error.tsx` - Root error boundary
+
+**Pattern for API calls and catch blocks:**
+
+```typescript
+import * as Sentry from '@sentry/nextjs';
+
+try {
+  // API call or risky operation
+  const response = await fetch('/api/endpoint');
+  // ...
+} catch (error) {
+  Sentry.captureException(error, {
+    extra: { context: 'relevant-context', id: someId },
+  });
+  // Handle error for user
+}
+```
+
+**Key points:**
+
+- Error boundaries automatically capture unhandled errors
+- Use `captureException()` in catch blocks with relevant context
+- Include operation name and IDs for debugging
+- Tests mock Sentry globally in `jest.setup.js` - no changes needed
+
+**Environment variables:**
+
+- `NEXT_PUBLIC_SENTRY_DSN` - Sentry DSN (set in Cloudflare Pages)
+- `SENTRY_AUTH_TOKEN` - For source map uploads (set in Cloudflare Pages)
+
 ### Security
 
 - Never commit `.env` file
@@ -196,7 +234,7 @@ This web app works with iOS Universal Links and Android App Links:
 
 ---
 
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-19
 
 This file should be updated whenever:
 
