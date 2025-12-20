@@ -1,14 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "aceback-web",
+  "name": "discr-web",
   "main": ".open-next/worker.js",
   "compatibility_date": "2024-12-30",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": false,
   "routes": [
     {
-      "pattern": "aceback.app/*",
-      "zone_name": "aceback.app"
+      "pattern": "discr.app/*",
+      "zone_name": "discr.app"
     }
   ],
   "assets": {
