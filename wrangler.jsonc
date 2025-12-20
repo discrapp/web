@@ -4,13 +4,6 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2024-12-30",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": false,
-  "routes": [
-    {
-      "pattern": "discrapp.com/*",
-      "zone_name": "discrapp.com"
-    }
-  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
