@@ -73,10 +73,11 @@ export async function reportError(error: Error, context?: ErrorContext): Promise
   };
 
   try {
+    // Use text/plain to avoid CORS preflight
     await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain;charset=UTF-8',
       },
       body: JSON.stringify(payload),
     });
