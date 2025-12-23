@@ -1,22 +1,56 @@
 import { render, screen } from '@testing-library/react';
 import Home from '@/app/page';
 
-describe('Home (Splash Page)', () => {
-  it('renders the Discr name', () => {
+describe('Home (Landing Page)', () => {
+  it('renders the Discr logo', () => {
     render(<Home />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Discr');
+    // Logo appears in Navigation, Hero, and Footer
+    const logos = screen.getAllByAltText('Discr');
+    expect(logos.length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders the tagline', () => {
     render(<Home />);
-    expect(screen.getByText('Get Yours Back')).toBeInTheDocument();
+    // Tagline appears in both hero and footer
+    const taglines = screen.getAllByText('Get Yours Back');
+    expect(taglines.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('displays content centered on the page', () => {
+  it('renders navigation', () => {
     render(<Home />);
-    const container = screen.getByRole('main');
-    expect(container).toHaveClass('flex');
-    expect(container).toHaveClass('items-center');
-    expect(container).toHaveClass('justify-center');
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+  });
+
+  it('renders all main sections', () => {
+    render(<Home />);
+    expect(screen.getByRole('region', { name: /hero/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /how it works/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /features/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /see discr. in action/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /protect your discs today/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /final call to action/i })
+    ).toBeInTheDocument();
+  });
+
+  it('renders footer', () => {
+    render(<Home />);
+    // There's a main footer and blockquote footers in testimonials
+    const footers = screen.getAllByRole('contentinfo');
+    expect(footers.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders app store badges', () => {
+    render(<Home />);
+    const appStoreLinks = screen.getAllByRole('link', { name: /app store/i });
+    expect(appStoreLinks.length).toBeGreaterThanOrEqual(2);
   });
 });

@@ -3,6 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Violet brand colors */
+  --violet-primary: #3b1877;
+  --violet-light: #5c2d91;
+  --violet-dark: #2d1159;
+  --violet-50: #faf5ff;
+  --violet-100: #f3e8ff;
+  --violet-200: #e9d5ff;
+  --violet-300: #d8b4fe;
+  --violet-400: #c084fc;
+  --violet-500: #a855f7;
+  --violet-600: #9333ea;
+  --violet-700: #7e22ce;
+  --violet-800: #6b21a8;
+  --violet-900: #581c87;
 }
 
 @theme inline {
@@ -22,4 +37,9 @@
 body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
 }

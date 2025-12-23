@@ -200,7 +200,7 @@ export default function DiscLandingPage() {
             Found this disc?
           </h3>
           <p className="text-violet-700 dark:text-violet-300 mb-4">
-            Download Discr to help return it to its owner!
+            Download Discr™ to help return it to its owner!
           </p>
 
           {/* App Store Buttons */}
