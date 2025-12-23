@@ -33,7 +33,7 @@ export default function AppScreenshots() {
           id="screenshots-heading"
           className="text-3xl sm:text-4xl font-bold text-center text-zinc-900 dark:text-white"
         >
-          See Discr in Action
+          See Discr™ in Action
         </h2>
         <p className="mt-4 text-lg text-center text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
           A beautiful, intuitive app designed for disc golfers

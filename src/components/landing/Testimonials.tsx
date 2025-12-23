@@ -27,7 +27,7 @@ export default function Testimonials() {
           What Players Are Saying
         </h2>
         <p className="mt-4 text-lg text-center text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-          Join the disc golf community protecting their discs with Discr
+          Join the disc golf community protecting their discs with Discr™
         </p>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">

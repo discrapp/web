@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-zinc-800 text-center text-sm text-zinc-500">
-          © {currentYear} Discr. All rights reserved.
+          © {currentYear} Discr™. All rights reserved.
         </div>
       </div>
     </footer>

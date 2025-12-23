@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Discr - Protect Your Discs | Disc Golf Disc Recovery",
+  title: "Discr™ - Protect Your Discs | Disc Golf Disc Recovery",
   description:
     "Never lose your disc golf discs again. QR code stickers for easy disc recovery. Scan, contact, and reunite with your lost discs.",
   keywords: [
@@ -26,16 +26,16 @@ export const metadata: Metadata = {
     "disc golf stickers",
   ],
   openGraph: {
-    title: "Discr - Get Yours Back",
+    title: "Discr™ - Get Yours Back",
     description: "QR code stickers for disc golf disc recovery",
     url: "https://discrapp.com",
-    siteName: "Discr",
+    siteName: "Discr™",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Discr - Protect Your Discs",
+    title: "Discr™ - Protect Your Discs",
     description: "QR code stickers for disc golf disc recovery",
   },
   metadataBase: new URL("https://discrapp.com"),

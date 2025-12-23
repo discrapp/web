@@ -76,7 +76,7 @@ export default function HowItWorks() {
           How It Works
         </h2>
         <p className="mt-4 text-lg text-center text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-          Protecting your discs is simple with Discr
+          Protecting your discs is simple with Discr™
         </p>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
