@@ -42,4 +42,5 @@ body {
 /* Smooth scroll for anchor links */
 html {
   scroll-behavior: smooth;
+  color-scheme: light dark;
 }

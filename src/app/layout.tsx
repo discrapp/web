@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  colorScheme: "light dark",
   title: "Discr™ - Protect Your Discs | Disc Golf Disc Recovery",
   description:
     "Never lose your disc golf discs again. QR code stickers for easy disc recovery. Scan, contact, and reunite with your lost discs.",
