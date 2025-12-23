@@ -26,7 +26,7 @@ export default function Footer() {
               alt="Discr"
               width={100}
               height={45}
-              className="h-10 w-auto brightness-0 invert"
+              className="h-10 w-auto"
             />
             <p className="mt-2 text-zinc-400">Get Yours Back</p>
             <p className="mt-4 text-sm text-zinc-500">

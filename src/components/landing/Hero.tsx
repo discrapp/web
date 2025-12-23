@@ -30,7 +30,7 @@ export default function Hero() {
           alt="Discr"
           width={300}
           height={135}
-          className="h-24 sm:h-32 lg:h-40 w-auto mx-auto brightness-0 invert"
+          className="h-24 sm:h-32 lg:h-40 w-auto mx-auto"
           priority
         />
         <p className="mt-4 text-2xl sm:text-3xl font-semibold text-white">
