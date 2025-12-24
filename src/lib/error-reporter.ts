@@ -40,7 +40,6 @@ export async function reportError(error: Error, context?: ErrorContext): Promise
     return;
   }
 
-  const { publicKey } = parsed;
   // Use tunnel to bypass ad blockers
   const endpoint = '/api/sentry-tunnel';
 

@@ -5,8 +5,11 @@
 // Need to unmock for this test file since we're testing the actual implementation
 jest.unmock('@/lib/error-reporter');
 
-let reportError: any;
-let setupErrorReporting: any;
+type ReportErrorFn = (error: Error, context?: Record<string, unknown>) => Promise<void>;
+type SetupErrorReportingFn = () => void;
+
+let reportError: ReportErrorFn;
+let setupErrorReporting: SetupErrorReportingFn;
 
 // Dynamically import after setting environment variable
 beforeAll(async () => {
@@ -17,24 +20,24 @@ beforeAll(async () => {
   jest.resetModules();
 
   // Now import the functions
-  const module = await import('@/lib/error-reporter');
-  reportError = module.reportError;
-  setupErrorReporting = module.setupErrorReporting;
+  const errorReporterModule = await import('@/lib/error-reporter');
+  reportError = errorReporterModule.reportError;
+  setupErrorReporting = errorReporterModule.setupErrorReporting;
 });
 
 // Mock PromiseRejectionEvent for jsdom
 class MockPromiseRejectionEvent extends Event {
-  promise: Promise<any>;
-  reason: any;
+  promise: Promise<unknown>;
+  reason: unknown;
 
-  constructor(type: string, init: { promise: Promise<any>; reason: any }) {
+  constructor(type: string, init: { promise: Promise<unknown>; reason: unknown }) {
     super(type);
     this.promise = init.promise;
     this.reason = init.reason;
   }
 }
 
-(global as any).PromiseRejectionEvent = MockPromiseRejectionEvent;
+(global as unknown as { PromiseRejectionEvent: typeof MockPromiseRejectionEvent }).PromiseRejectionEvent = MockPromiseRejectionEvent;
 
 describe('error-reporter', () => {
   const mockFetch = jest.fn();
@@ -56,9 +59,12 @@ describe('error-reporter', () => {
     window.onunhandledrejection = null;
 
     // Mock crypto.randomUUID
-    global.crypto = {
-      randomUUID: jest.fn(() => '12345678-1234-1234-1234-123456789012'),
-    } as any;
+    Object.defineProperty(global, 'crypto', {
+      value: {
+        randomUUID: jest.fn(() => '12345678-1234-1234-1234-123456789012'),
+      },
+      writable: true,
+    });
   });
 
   afterEach(() => {
@@ -283,11 +289,11 @@ describe('error-reporter', () => {
       // Create a resolved promise to avoid unhandled rejection warnings
       const dummyPromise = Promise.resolve();
       const event = new MockPromiseRejectionEvent('unhandledrejection', {
-        promise: dummyPromise as any,
+        promise: dummyPromise,
         reason: error,
       });
 
-      window.onunhandledrejection!(event as any);
+      window.onunhandledrejection!(event as PromiseRejectionEvent);
 
       // Wait for async reportError
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -310,11 +316,11 @@ describe('error-reporter', () => {
       // Create a resolved promise to avoid unhandled rejection warnings
       const dummyPromise = Promise.resolve();
       const event = new MockPromiseRejectionEvent('unhandledrejection', {
-        promise: dummyPromise as any,
+        promise: dummyPromise,
         reason: 'String rejection',
       });
 
-      window.onunhandledrejection!(event as any);
+      window.onunhandledrejection!(event as PromiseRejectionEvent);
 
       // Wait for async reportError
       await new Promise((resolve) => setTimeout(resolve, 0));
