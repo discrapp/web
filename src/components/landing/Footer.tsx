@@ -22,7 +22,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Image
-              src="/images/logo-optimized.svg"
+              src="/images/logo-big-text-plain.svg"
               alt="Discr"
               width={100}
               height={45}
