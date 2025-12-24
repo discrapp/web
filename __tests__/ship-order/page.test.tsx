@@ -263,5 +263,20 @@ describe('ShipOrderPage', () => {
         screen.getByPlaceholderText('Enter tracking number (optional)')
       ).toBeInTheDocument();
     });
+
+    it('changes input border color on focus and blur', () => {
+      render(<ShipOrderPage />);
+      const input = screen.getByPlaceholderText(
+        'Enter tracking number (optional)'
+      );
+
+      // Focus the input
+      fireEvent.focus(input);
+      expect(input).toHaveStyle({ borderColor: '#667eea' });
+
+      // Blur the input
+      fireEvent.blur(input);
+      expect(input).toHaveStyle({ borderColor: '#e5e7eb' });
+    });
   });
 });

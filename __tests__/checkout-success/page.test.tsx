@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import CheckoutSuccessPage from '@/app/checkout-success/page';
 
 // Mock next/navigation
@@ -31,10 +31,12 @@ describe('CheckoutSuccessPage', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     mockSearchParams.delete('order_id');
+    jest.spyOn(window, 'close').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   it('renders payment successful message', () => {
@@ -70,5 +72,29 @@ describe('CheckoutSuccessPage', () => {
   it('renders success emoji', () => {
     render(<CheckoutSuccessPage />);
     expect(screen.getByText('✅')).toBeInTheDocument();
+  });
+
+  it('attempts to close window after 3 seconds', () => {
+    render(<CheckoutSuccessPage />);
+
+    expect(window.close).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).toHaveBeenCalled();
+  });
+
+  it('clears timeout on unmount', () => {
+    const { unmount } = render(<CheckoutSuccessPage />);
+
+    unmount();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).not.toHaveBeenCalled();
   });
 });

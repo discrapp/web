@@ -333,3 +333,49 @@ describe('error-reporter', () => {
     });
   });
 });
+
+describe('error-reporter without DSN', () => {
+  const mockConsoleError = jest.fn();
+
+  beforeAll(() => {
+    console.error = mockConsoleError;
+  });
+
+  beforeEach(() => {
+    mockConsoleError.mockClear();
+  });
+
+  it('logs error when Sentry DSN is not set', async () => {
+    // Reset modules and clear DSN
+    jest.resetModules();
+    delete process.env.NEXT_PUBLIC_SENTRY_DSN;
+
+    const { reportError: reportErrorNoDsn } = await import(
+      '@/lib/error-reporter'
+    );
+
+    const error = new Error('Test error');
+    await reportErrorNoDsn(error, { context: 'test' });
+
+    expect(mockConsoleError).toHaveBeenCalledWith(
+      'Error (Sentry disabled):',
+      error,
+      { context: 'test' }
+    );
+  });
+
+  it('logs error when DSN is invalid', async () => {
+    // Reset modules and set invalid DSN
+    jest.resetModules();
+    process.env.NEXT_PUBLIC_SENTRY_DSN = 'not-a-valid-url';
+
+    const { reportError: reportErrorInvalidDsn } = await import(
+      '@/lib/error-reporter'
+    );
+
+    const error = new Error('Test error');
+    await reportErrorInvalidDsn(error);
+
+    expect(mockConsoleError).toHaveBeenCalledWith('Invalid Sentry DSN:', error);
+  });
+});

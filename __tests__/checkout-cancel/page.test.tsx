@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import CheckoutCancelPage from '@/app/checkout-cancel/page';
 
 // Mock next/navigation
@@ -31,10 +31,12 @@ describe('CheckoutCancelPage', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     mockSearchParams.delete('order_id');
+    jest.spyOn(window, 'close').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   it('renders payment cancelled message', () => {
@@ -70,5 +72,29 @@ describe('CheckoutCancelPage', () => {
   it('renders cancel emoji', () => {
     render(<CheckoutCancelPage />);
     expect(screen.getByText('❌')).toBeInTheDocument();
+  });
+
+  it('attempts to close window after 3 seconds', () => {
+    render(<CheckoutCancelPage />);
+
+    expect(window.close).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).toHaveBeenCalled();
+  });
+
+  it('clears timeout on unmount', () => {
+    const { unmount } = render(<CheckoutCancelPage />);
+
+    unmount();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).not.toHaveBeenCalled();
   });
 });

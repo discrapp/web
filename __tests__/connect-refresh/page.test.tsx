@@ -1,19 +1,38 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import ConnectRefreshPage from '@/app/connect-refresh/page';
 
-// We can't easily test window.location.href changes in jsdom
-// Focus on testing the rendered content
+// Suppress the jsdom navigation error
+const originalError = console.error;
+beforeAll(() => {
+  console.error = (...args: unknown[]) => {
+    if (
+      typeof args[0] === 'object' &&
+      args[0] !== null &&
+      'type' in args[0] &&
+      (args[0] as { type: string }).type === 'not implemented'
+    ) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+});
+
+afterAll(() => {
+  console.error = originalError;
+});
 
 describe('ConnectRefreshPage', () => {
   beforeEach(() => {
     jest.useFakeTimers();
+    jest.spyOn(window, 'close').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   it('renders the session expired title', () => {
@@ -47,5 +66,29 @@ describe('ConnectRefreshPage', () => {
   it('renders the refresh emoji', () => {
     render(<ConnectRefreshPage />);
     expect(screen.getByText('🔄')).toBeInTheDocument();
+  });
+
+  it('attempts to close window after 3 seconds', () => {
+    render(<ConnectRefreshPage />);
+
+    expect(window.close).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).toHaveBeenCalled();
+  });
+
+  it('clears timeout on unmount', () => {
+    const { unmount } = render(<ConnectRefreshPage />);
+
+    unmount();
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(window.close).not.toHaveBeenCalled();
   });
 });
