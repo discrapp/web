@@ -26,16 +26,13 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <Image
-          src="/images/logo-optimized.svg"
+          src="/images/logo-white-plain.svg"
           alt="Discr"
           width={300}
           height={135}
           className="h-24 sm:h-32 lg:h-40 w-auto mx-auto"
           priority
         />
-        <p className="mt-4 text-2xl sm:text-3xl font-semibold text-white">
-          Get Yours Back
-        </p>
         <p className="mt-6 text-lg sm:text-xl text-zinc-200 max-w-2xl mx-auto">
           QR code stickers for disc golf disc recovery. Protect your discs and
           help other players return lost discs.
