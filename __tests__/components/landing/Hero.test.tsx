@@ -16,7 +16,7 @@ describe('Hero', () => {
   it('renders the subtitle description', () => {
     render(<Hero />);
     expect(
-      screen.getByText(/qr code stickers for disc golf disc recovery/i)
+      screen.getByText(/qr code stickers and ai-powered disc identification/i)
     ).toBeInTheDocument();
   });
 

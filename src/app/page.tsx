@@ -1,5 +1,6 @@
 import Navigation from '@/components/landing/Navigation';
 import Hero from '@/components/landing/Hero';
+import AIFeature from '@/components/landing/AIFeature';
 import HowItWorks from '@/components/landing/HowItWorks';
 import Features from '@/components/landing/Features';
 import AppScreenshots from '@/components/landing/AppScreenshots';
@@ -14,6 +15,7 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
+        <AIFeature />
         <HowItWorks />
         <Features />
         <AppScreenshots />
