@@ -33,7 +33,7 @@ jobs:
     name: Test
     uses: discrapp/.github/.github/workflows/test.yml@main
     with:
-      coverage_threshold: 25
+      coverage_threshold: 100
       test_command: "npm test -- --coverage --coverageReporters=json-summary"
     secrets: inherit
     permissions:
