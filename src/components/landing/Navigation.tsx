@@ -20,7 +20,7 @@ export default function Navigation() {
           {/* Logo */}
           <Link href="/" aria-label="Discr Home" className="flex items-center">
             <Image
-              src="/images/logo-big-text-plain.svg"
+              src="/images/logo.webp"
               alt="Discr"
               width={100}
               height={45}
