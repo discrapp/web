@@ -5,6 +5,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/discrapp/web)
 ![GitHub repo size](https://img.shields.io/github/repo-size/discrapp/web)
 ![GitHub License](https://img.shields.io/github/license/discrapp/web)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 ## Introduction
 
@@ -50,6 +51,20 @@ Run linting:
 ```bash
 npm run lint
 ```
+
+Run tests:
+
+```bash
+npm test
+```
+
+Run tests with coverage:
+
+```bash
+npm test -- --coverage
+```
+
+For detailed testing documentation, see [TESTING.md](TESTING.md).
 
 ## Project Structure
 

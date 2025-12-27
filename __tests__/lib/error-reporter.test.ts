@@ -379,3 +379,52 @@ describe('error-reporter without DSN', () => {
     expect(mockConsoleError).toHaveBeenCalledWith('Invalid Sentry DSN:', error);
   });
 });
+
+describe('error-reporter NODE_ENV fallback', () => {
+  const mockFetch = jest.fn();
+
+  beforeEach(() => {
+    global.fetch = mockFetch;
+    mockFetch.mockClear();
+
+    Object.defineProperty(global, 'crypto', {
+      value: {
+        randomUUID: jest.fn(() => '12345678-1234-1234-1234-123456789012'),
+      },
+      writable: true,
+    });
+  });
+
+  it('uses production as default environment when NODE_ENV is undefined', async () => {
+    // Reset modules
+    jest.resetModules();
+
+    // Save original NODE_ENV
+    const originalNodeEnv = process.env.NODE_ENV;
+
+    // Delete NODE_ENV to test fallback
+    delete process.env.NODE_ENV;
+
+    // Set valid DSN
+    process.env.NEXT_PUBLIC_SENTRY_DSN = 'https://publickey@sentry.io/123';
+
+    const { reportError: reportErrorNoEnv } = await import(
+      '@/lib/error-reporter'
+    );
+
+    mockFetch.mockResolvedValueOnce({ ok: true });
+
+    const error = new Error('Test error');
+    await reportErrorNoEnv(error);
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    const callArgs = mockFetch.mock.calls[0];
+    const payload = JSON.parse(callArgs[1].body);
+
+    expect(payload.environment).toBe('production');
+
+    // Restore NODE_ENV
+    process.env.NODE_ENV = originalNodeEnv;
+  });
+});
+

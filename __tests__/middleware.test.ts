@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { NextRequest } from 'next/server';
-import { middleware } from '@/middleware';
+import { middleware, config } from '@/middleware';
 
 describe('middleware', () => {
   it('redirects www.discrapp.com to discrapp.com with 301 status', () => {
@@ -93,6 +93,18 @@ describe('middleware', () => {
     expect(response.headers.get('location')).toBeNull();
   });
 
+  it('handles null host header from headers.get', () => {
+    const request = new NextRequest('https://discrapp.com/test-path');
+    // Mock headers.get to return null
+    jest.spyOn(request.headers, 'get').mockReturnValue(null);
+
+    const response = middleware(request);
+
+    // Null host should fallback to empty string
+    expect(response.status).toBe(200);
+    expect(response.headers.get('location')).toBeNull();
+  });
+
   it('handles subdomain other than www', () => {
     const request = new NextRequest('https://api.discrapp.com/test', {
       headers: {
@@ -104,5 +116,12 @@ describe('middleware', () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get('location')).toBeNull();
+  });
+});
+
+describe('middleware config', () => {
+  it('exports a matcher for all paths', () => {
+    expect(config).toBeDefined();
+    expect(config.matcher).toBe('/:path*');
   });
 });

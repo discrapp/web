@@ -263,6 +263,41 @@ describe('Disc Landing Page', () => {
     });
   });
 
+  it('hides copied message after timeout', async () => {
+    jest.useFakeTimers();
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          found: true,
+          disc: { name: 'Test Disc', manufacturer: 'Test' },
+        }),
+    });
+
+    render(<DiscLandingPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('TEST123')).toBeInTheDocument();
+    });
+
+    const copyButton = screen.getByText('TEST123').closest('button');
+    fireEvent.click(copyButton!);
+
+    await waitFor(() => {
+      expect(screen.getByText(/copied to clipboard/i)).toBeInTheDocument();
+    });
+
+    // Fast-forward the timer to clear the copied message
+    jest.advanceTimersByTime(2000);
+
+    await waitFor(() => {
+      expect(screen.queryByText(/copied to clipboard/i)).not.toBeInTheDocument();
+    });
+
+    jest.useRealTimers();
+  });
+
   it('uses fallback copy method when clipboard API fails', async () => {
     // Mock document.execCommand for fallback
     const mockExecCommand = jest.fn();
@@ -294,6 +329,48 @@ describe('Disc Landing Page', () => {
     });
   });
 
+  it('hides copied message after timeout when using fallback copy', async () => {
+    jest.useFakeTimers();
+
+    // Mock document.execCommand for fallback
+    const mockExecCommand = jest.fn();
+    document.execCommand = mockExecCommand;
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          found: true,
+          disc: { name: 'Test Disc', manufacturer: 'Test' },
+        }),
+    });
+
+    render(<DiscLandingPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('TEST123')).toBeInTheDocument();
+    });
+
+    // Make clipboard fail to trigger fallback
+    mockWriteText.mockRejectedValueOnce(new Error('Clipboard not available'));
+
+    const copyButton = screen.getByText('TEST123').closest('button');
+    fireEvent.click(copyButton!);
+
+    await waitFor(() => {
+      expect(screen.getByText(/copied to clipboard/i)).toBeInTheDocument();
+    });
+
+    // Fast-forward the timer to clear the copied message
+    jest.advanceTimersByTime(2000);
+
+    await waitFor(() => {
+      expect(screen.queryByText(/copied to clipboard/i)).not.toBeInTheDocument();
+    });
+
+    jest.useRealTimers();
+  });
+
   it('reports error when fetch fails', async () => {
     const fetchError = new Error('Network error');
     (global.fetch as jest.Mock).mockRejectedValueOnce(fetchError);
@@ -323,5 +400,29 @@ describe('Disc Landing Page', () => {
       code: 'TEST123',
       operation: 'lookup-qr-code',
     });
+  });
+
+  it('silently handles auto-copy clipboard failure on mount', async () => {
+    // Make the auto-copy fail (the one in useEffect)
+    mockWriteText.mockRejectedValueOnce(new Error('Clipboard denied'));
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          found: true,
+          disc: { name: 'Test Disc', manufacturer: 'Test' },
+        }),
+    });
+
+    // Should not throw, just silently fail
+    render(<DiscLandingPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Test Disc')).toBeInTheDocument();
+    });
+
+    // Verify auto-copy was attempted
+    expect(mockWriteText).toHaveBeenCalledWith('TEST123');
   });
 });

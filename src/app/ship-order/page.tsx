@@ -15,6 +15,7 @@ function ShipOrderContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    /* istanbul ignore if -- defensive check, form not rendered without token */
     if (!token) {
       setResult({ success: false, message: 'Missing printer token' });
       return;
