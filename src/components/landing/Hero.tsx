@@ -39,8 +39,8 @@ export default function Hero() {
           Get Yours Back
         </p>
         <p className="mt-6 text-lg sm:text-xl text-zinc-200 max-w-2xl mx-auto">
-          QR code stickers for disc golf disc recovery. Protect your discs and
-          help other players return lost discs.
+          QR code stickers and AI-powered disc identification for disc golf.
+          Manage your collection and get lost discs back.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-6">

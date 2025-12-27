@@ -9,8 +9,9 @@ describe('Features', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders six feature cards', () => {
+  it('renders seven feature cards', () => {
     render(<Features />);
+    expect(screen.getByText(/ai disc identification/i)).toBeInTheDocument();
     expect(screen.getByText(/qr code scanning/i)).toBeInTheDocument();
     expect(screen.getByText(/disc inventory/i)).toBeInTheDocument();
     expect(screen.getByText(/recovery workflow/i)).toBeInTheDocument();
@@ -21,6 +22,9 @@ describe('Features', () => {
 
   it('renders feature descriptions', () => {
     render(<Features />);
+    expect(
+      screen.getByText(/snap a photo and let ai identify/i)
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/instantly identify any registered disc/i)
     ).toBeInTheDocument();
