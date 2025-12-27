@@ -33,7 +33,7 @@ jobs:
     name: Test
     uses: discrapp/.github/.github/workflows/test.yml@main
     with:
-      coverage_threshold: 25
+      coverage_threshold: 100
       test_command: "npm test -- --coverage --coverageReporters=json-summary"
     secrets: inherit
     permissions:
@@ -72,6 +72,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, test, build]
     if: github.event_name == 'pull_request'
+    outputs:
+      preview_url: ${{ steps.deploy.outputs.preview_url }}
     permissions:
       contents: read
       pull-requests: write
@@ -143,6 +145,93 @@ jobs:
 
             const botComment = comments.find(c =>
               c.body && c.body.includes('<!-- heimdallr-preview-deployment -->')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    needs: deploy-preview
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            ${{ needs.deploy-preview.outputs.preview_url }}
+          configPath: .github/lighthouse/lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format Lighthouse Score
+        id: format
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = ${{ steps.lighthouse.outputs.manifest }};
+            const links = ${{ steps.lighthouse.outputs.links }};
+            const result = results[0];
+            const summary = result.summary;
+
+            const score = (value) => {
+              const pct = Math.round(value * 100);
+              if (pct >= 90) return `🟢 ${pct}`;
+              if (pct >= 50) return `🟠 ${pct}`;
+              return `🔴 ${pct}`;
+            };
+
+            const body = [
+              '## ⚡ Lighthouse Report',
+              '',
+              '| Category | Score |',
+              '|----------|-------|',
+              `| Performance | ${score(summary.performance)} |`,
+              `| Accessibility | ${score(summary.accessibility)} |`,
+              `| Best Practices | ${score(summary['best-practices'])} |`,
+              `| SEO | ${score(summary.seo)} |`,
+              '',
+              `[📊 Full Report](${Object.values(links)[0]})`,
+              '',
+              '<!-- lighthouse-report -->'
+            ].join('\n');
+
+            core.setOutput('body', body);
+
+      - name: Comment Lighthouse results
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.HEIMDALLR_TOKEN }}
+          script: |
+            const body = `${{ steps.format.outputs.body }}`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c =>
+              c.body && c.body.includes('<!-- lighthouse-report -->')
             );
 
             if (botComment) {

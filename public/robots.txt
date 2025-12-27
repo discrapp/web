@@ -1,0 +1,8 @@
+# Discr Web - Robots.txt
+# https://discrapp.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://discrapp.com/sitemap.xml
