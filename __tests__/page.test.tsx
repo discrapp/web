@@ -27,9 +27,10 @@ describe('Home (Landing Page)', () => {
     expect(
       screen.getByRole('region', { name: /how it works/i })
     ).toBeInTheDocument();
+    // Multiple sections contain "features" - AI-Powered Features and Features
     expect(
-      screen.getByRole('region', { name: /features/i })
-    ).toBeInTheDocument();
+      screen.getAllByRole('region', { name: /features/i }).length
+    ).toBeGreaterThanOrEqual(1);
     expect(
       screen.getByRole('region', { name: /see discr. in action/i })
     ).toBeInTheDocument();
