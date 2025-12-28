@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import TermsPage from '@/app/terms/page';
+import TermsPage, { metadata } from '@/app/terms/page';
 
 describe('Terms of Service Page', () => {
   it('renders the page title', () => {
@@ -76,5 +76,10 @@ describe('Terms of Service Page', () => {
   it('has main landmark', () => {
     render(<TermsPage />);
     expect(screen.getByRole('main')).toBeInTheDocument();
+  });
+
+  it('exports correct metadata', () => {
+    expect(metadata.title).toBe('Terms of Service | Discr');
+    expect(metadata.description).toContain('Terms of Service');
   });
 });

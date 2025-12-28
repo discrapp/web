@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import PrivacyPage from '@/app/privacy/page';
+import PrivacyPage, { metadata } from '@/app/privacy/page';
 
 describe('Privacy Policy Page', () => {
   it('renders the page title', () => {
@@ -69,5 +69,10 @@ describe('Privacy Policy Page', () => {
   it('has main landmark', () => {
     render(<PrivacyPage />);
     expect(screen.getByRole('main')).toBeInTheDocument();
+  });
+
+  it('exports correct metadata', () => {
+    expect(metadata.title).toBe('Privacy Policy | Discr');
+    expect(metadata.description).toContain('Privacy Policy');
   });
 });
