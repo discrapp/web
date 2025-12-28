@@ -18,6 +18,7 @@ Cloudflare Pages.
 - **Deployment:** Cloudflare Pages
 - **Domain:** discrapp.com
 - **CI/CD:** GitHub Actions with release workflow
+- **Monitoring:** Sentry (errors + uptime) → Slack alerts
 - **Linting:** Pre-commit hooks for code quality
 
 ## Purpose
@@ -206,6 +207,38 @@ try {
 - `NEXT_PUBLIC_SENTRY_DSN` - Sentry DSN (set in Cloudflare Pages)
 - `SENTRY_AUTH_TOKEN` - For source map uploads (set in Cloudflare Pages)
 
+### Uptime Monitoring
+
+Sentry Uptime Monitoring checks `https://discrapp.com` availability and alerts
+via Slack when the site is down.
+
+**What it catches:**
+
+- DNS resolution failures
+- HTTP errors (5xx, timeouts)
+- SSL certificate issues
+- Complete site outages
+
+**How it works:**
+
+- Sentry performs HTTP checks every 1 minute from multiple regions
+- An outage issue is created after 3 consecutive failures
+- Issue alert triggers Slack notification on "outage" category
+
+**To recreate if needed:**
+
+1. Sentry → Alerts → Create Alert → Uptime Monitor
+   - URL: `https://discrapp.com`
+   - Interval: 1 minute
+   - Timeout: 10 seconds
+1. Sentry → Alerts → Create Alert → Issue Alert
+   - Filter: "The issue's category is equal to Outage"
+   - Action: "Send a Slack notification" → select channel
+   - Frequency: Once every 5 minutes
+
+**Note:** Sentry error tracking (above) catches application errors. Uptime
+monitoring catches infrastructure issues where the app never loads.
+
 ### Security
 
 - Never commit `.env` file
@@ -234,7 +267,7 @@ This web app works with iOS Universal Links and Android App Links:
 
 ---
 
-**Last Updated:** 2025-12-19
+**Last Updated:** 2025-12-28
 
 This file should be updated whenever:
 
