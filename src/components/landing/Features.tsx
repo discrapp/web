@@ -1,3 +1,52 @@
+const aiFeatures = [
+  {
+    title: 'AI Disc Identification',
+    description:
+      'Snap a photo of any disc and instantly identify the manufacturer, mold, and flight numbers',
+    icon: (
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: 'AI Shot Advisor',
+    description:
+      'Photograph any hole from the tee and get a personalized disc recommendation with throw type and power',
+    icon: (
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M13 10V3L4 14h7v7l9-11h-7z"
+        />
+      </svg>
+    ),
+  },
+];
+
 const features = [
   {
     title: 'QR Code Scanning',
@@ -134,7 +183,44 @@ export default function Features() {
           Everything you need to protect your disc collection
         </p>
 
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* AI Features - Highlighted at top */}
+        <div className="mt-12 flex flex-col sm:flex-row justify-center gap-6 max-w-4xl mx-auto">
+          {aiFeatures.map((feature) => (
+            <div
+              key={feature.title}
+              className="relative flex-1 p-8 bg-gradient-to-br from-violet-500 to-violet-700 dark:from-violet-600 dark:to-violet-900 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="absolute top-4 right-4">
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/20 text-white text-xs font-medium">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  Powered by AI
+                </span>
+              </div>
+              <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-white">
+                {feature.icon}
+              </div>
+              <h3 className="mt-5 text-xl font-bold text-white">
+                {feature.title}
+              </h3>
+              <p className="mt-3 text-violet-100">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Standard Features Grid */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature) => (
             <div
               key={feature.title}
