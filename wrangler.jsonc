@@ -8,9 +8,8 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
-  },
-  "routes": [
-    { "pattern": "discrapp.com", "custom_domain": true },
-    { "pattern": "www.discrapp.com", "custom_domain": true }
-  ]
+  }
+  // Custom domains configured manually in Cloudflare Workers Routes
+  // to avoid DNS recreation on each deploy.
+  // Routes: discrapp.com/* and www.discrapp.com/* -> discr-web worker
 }
