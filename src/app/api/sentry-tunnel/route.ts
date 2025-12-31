@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SENTRY_HOST = 'o4510563703193600.ingest.us.sentry.io';
-const SENTRY_PROJECT_ID = '4510563738124288';
-const SENTRY_KEY = 'd49a3b76211657acb27bae4a1dcadbca';
+const SENTRY_HOST = process.env.SENTRY_HOST;
+const SENTRY_PROJECT_ID = process.env.SENTRY_PROJECT_ID;
+const SENTRY_KEY = process.env.SENTRY_PUBLIC_KEY;
 
 export async function POST(request: NextRequest) {
+  if (!SENTRY_HOST || !SENTRY_PROJECT_ID || !SENTRY_KEY) {
+    console.error('Sentry tunnel configuration missing');
+    return new NextResponse(null, { status: 500 });
+  }
+
   try {
     const body = await request.text();
 
