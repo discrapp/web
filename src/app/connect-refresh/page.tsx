@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 export default function ConnectRefreshPage() {
   useEffect(() => {
     // Attempt to deep link back to the app
-    const deepLinkUrl = 'com.discrapp.com://connect-refresh';
+    const deepLinkUrl = 'com.discr.app://connect-refresh';
 
     // Try to open the app via deep link
     window.location.href = deepLinkUrl;
