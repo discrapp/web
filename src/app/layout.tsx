@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ErrorReporterInit } from "@/components/ErrorReporterInit";
+import { FundingBanner } from "@/components/FundingBanner";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -98,6 +99,7 @@ export default function RootLayout({
       >
         <ErrorReporterInit />
         {children}
+        <FundingBanner />
       </body>
     </html>
   );
