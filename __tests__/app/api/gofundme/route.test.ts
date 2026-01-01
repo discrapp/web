@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { extractNumber } from '@/app/api/gofundme/route';
+import { extractNumber, stripHtml } from '@/app/api/gofundme/route';
 
 // Mock global fetch
 global.fetch = jest.fn();
@@ -26,6 +26,26 @@ describe('extractNumber', () => {
 
   it('returns 0 for empty string', () => {
     expect(extractNumber('')).toBe(0);
+  });
+});
+
+describe('stripHtml', () => {
+  it('removes HTML tags', () => {
+    expect(stripHtml('<span>$50</span> raised')).toBe(' $50 raised');
+  });
+
+  it('removes HTML comments', () => {
+    expect(stripHtml('$50<!-- comment --> raised')).toBe('$50 raised');
+  });
+
+  it('normalizes whitespace', () => {
+    expect(stripHtml('$50   raised    of   450')).toBe('$50 raised of 450');
+  });
+
+  it('handles complex GoFundMe HTML structure', () => {
+    const html =
+      '<span>$50</span> <!-- -->raised <span class="foo">of</span> <button><span>450</span></button>';
+    expect(stripHtml(html)).toBe(' $50 raised of 450 ');
   });
 });
 
@@ -248,12 +268,12 @@ describe('/api/gofundme', () => {
     it('parses separate raised and goal patterns', async () => {
       const { GET } = await import('@/app/api/gofundme/route');
 
-      // Use format that doesn't match "X of Y goal" pattern
+      // Use format that matches GoFundMe's "raised ... of X" pattern
       const mockHtml = `
         <html>
           <body>
             <span>$75 raised</span>
-            <span>$500 goal</span>
+            <span>of $500</span>
           </body>
         </html>
       `;
@@ -270,6 +290,56 @@ describe('/api/gofundme', () => {
       expect(data.goalAmount).toBe(500);
     });
 
+    it('parses raised amount when goal pattern is missing', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      // Only raised, no goal pattern - triggers fallback pattern 2
+      const mockHtml = `
+        <html>
+          <body>
+            <span>$125 raised</span>
+            <span>some other text</span>
+          </body>
+        </html>
+      `;
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockHtml),
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      expect(data.amountRaised).toBe(125);
+      expect(data.goalAmount).toBe(450); // Default
+    });
+
+    it('parses goal amount when raised pattern is missing', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      // Only goal, no raised pattern - triggers fallback pattern 2
+      const mockHtml = `
+        <html>
+          <body>
+            <span>some text</span>
+            <span>of $600</span>
+          </body>
+        </html>
+      `;
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockHtml),
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      expect(data.amountRaised).toBe(0); // Default
+      expect(data.goalAmount).toBe(600);
+    });
+
     it('handles zero goal amount', async () => {
       const { GET } = await import('@/app/api/gofundme/route');
 
@@ -277,7 +347,7 @@ describe('/api/gofundme', () => {
         <html>
           <body>
             <span>$100 raised</span>
-            <span>$0 goal</span>
+            <span>of $0</span>
           </body>
         </html>
       `;
