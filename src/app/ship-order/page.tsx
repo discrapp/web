@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const API_URL = 'https://xhaogdigrsiwxdjmjzgx.supabase.co/functions/v1';
 
@@ -290,19 +291,20 @@ function ShipOrderContent() {
 
 export default function ShipOrderPage() {
   return (
-    <Suspense fallback={
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-      }}>
-        Loading...
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div
+          className="flex items-center justify-center min-h-screen"
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          }}
+        >
+          <div className="bg-white p-8 rounded-xl shadow-lg">
+            <LoadingSpinner size="lg" message="Loading order..." />
+          </div>
+        </div>
+      }
+    >
       <ShipOrderContent />
     </Suspense>
   );
