@@ -1,7 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import NotFound from '@/app/not-found';
+import NotFound, { metadata } from '@/app/not-found';
 
 describe('NotFound (404 Page)', () => {
+  describe('metadata', () => {
+    it('has correct title', () => {
+      expect(metadata.title).toBe('404 - Page Not Found | Discr');
+    });
+
+    it('has correct description', () => {
+      expect(metadata.description).toBe(
+        'The page you are looking for could not be found.'
+      );
+    });
+  });
+
   it('renders the 404 heading', () => {
     render(<NotFound />);
     expect(screen.getByRole('heading', { name: /404/i })).toBeInTheDocument();
