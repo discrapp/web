@@ -19,6 +19,14 @@ export function extractNumber(text: string): number {
   return match ? parseFloat(match[0]) : 0;
 }
 
+// Exported for testing - strips HTML tags and comments to get plain text
+export function stripHtml(html: string): string {
+  return html
+    .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments
+    .replace(/<[^>]+>/g, ' ') // Remove HTML tags
+    .replace(/\s+/g, ' '); // Normalize whitespace
+}
+
 function parseGoFundMePage(html: string): CampaignData | null {
   try {
     // Extract title from og:title meta tag
@@ -29,13 +37,13 @@ function parseGoFundMePage(html: string): CampaignData | null {
       ? titleMatch[1].replace(' - GoFundMe', '').trim()
       : 'Help Launch Discr';
 
-    // GoFundMe stores campaign data in a script tag with window.initialState or similar
-    // Try to find the progress data from the page
+    // Strip HTML to get plain text for parsing amounts
+    const plainText = stripHtml(html);
 
-    // Look for amount raised - typically in format "$X raised of $Y goal"
-    // Pattern 1: "$50 raised of $450 goal" or "$50 of $450 goal"
-    const progressMatch = html.match(
-      /\$?([\d,]+)\s*(?:raised\s+)?of\s*\$?([\d,]+)\s*goal/i
+    // Look for amount raised - GoFundMe format: "$50 raised of 450"
+    // Pattern 1: "$X raised of $Y" or "$X raised of Y" (goal may not have $)
+    const progressMatch = plainText.match(
+      /\$?([\d,]+)\s+raised\s+of\s+\$?([\d,]+)/i
     );
 
     let amountRaised = 0;
@@ -45,16 +53,16 @@ function parseGoFundMePage(html: string): CampaignData | null {
       amountRaised = extractNumber(progressMatch[1]);
       goalAmount = extractNumber(progressMatch[2]);
     } else {
-      // Pattern 2: Look for separate raised and goal elements
-      const raisedMatch = html.match(/\$?([\d,]+)\s*raised/i);
-      const goalMatch = html.match(/\$?([\d,]+)\s*goal/i);
+      // Pattern 2: Look for separate raised and goal patterns
+      const raisedMatch = plainText.match(/\$?([\d,]+)\s+raised/i);
+      const goalMatch = plainText.match(/of\s+\$?([\d,]+)/i);
 
       if (raisedMatch) amountRaised = extractNumber(raisedMatch[1]);
       if (goalMatch) goalAmount = extractNumber(goalMatch[1]);
     }
 
     // Look for donation count
-    const donationMatch = html.match(/([\d,]+)\s*donation/i);
+    const donationMatch = plainText.match(/([\d,]+)\s+donation/i);
     const donationCount = donationMatch ? extractNumber(donationMatch[1]) : 0;
 
     // Calculate percentage
