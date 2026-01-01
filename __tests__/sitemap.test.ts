@@ -39,6 +39,28 @@ describe('sitemap', () => {
     expect(checkoutCancel?.changeFrequency).toBe('monthly');
   });
 
+  it('includes privacy policy page', () => {
+    const result = sitemap();
+    const privacy = result.find(
+      (entry) => entry.url === 'https://discrapp.com/privacy'
+    );
+
+    expect(privacy).toBeDefined();
+    expect(privacy?.priority).toBe(0.5);
+    expect(privacy?.changeFrequency).toBe('yearly');
+  });
+
+  it('includes terms of service page', () => {
+    const result = sitemap();
+    const terms = result.find(
+      (entry) => entry.url === 'https://discrapp.com/terms'
+    );
+
+    expect(terms).toBeDefined();
+    expect(terms?.priority).toBe(0.5);
+    expect(terms?.changeFrequency).toBe('yearly');
+  });
+
   it('includes lastModified date for all entries', () => {
     const result = sitemap();
 
