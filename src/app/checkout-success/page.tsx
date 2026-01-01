@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
@@ -75,16 +76,13 @@ function CheckoutSuccessContent() {
 
 export default function CheckoutSuccessPage() {
   return (
-    <Suspense fallback={
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-      }}>
-        Loading...
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-white dark:bg-zinc-900">
+          <LoadingSpinner size="lg" message="Processing payment..." />
+        </div>
+      }
+    >
       <CheckoutSuccessContent />
     </Suspense>
   );
