@@ -266,4 +266,20 @@ describe('FundingBanner', () => {
       expect(screen.queryByRole('banner')).not.toBeInTheDocument();
     });
   });
+
+  describe('null data handling', () => {
+    it('does not render when API returns null data', async () => {
+      mockFetch.mockResolvedValue({
+        json: () => Promise.resolve(null),
+      });
+
+      render(<FundingBanner />);
+
+      // Wait for fetch to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(screen.queryByText('Help Launch Discr!')).not.toBeInTheDocument();
+      expect(screen.queryByRole('banner')).not.toBeInTheDocument();
+    });
+  });
 });

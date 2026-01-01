@@ -2,8 +2,32 @@
  * @jest-environment node
  */
 
+import { extractNumber } from '@/app/api/gofundme/route';
+
 // Mock global fetch
 global.fetch = jest.fn();
+
+describe('extractNumber', () => {
+  it('extracts number from string with digits', () => {
+    expect(extractNumber('100')).toBe(100);
+  });
+
+  it('extracts number from string with commas', () => {
+    expect(extractNumber('1,500')).toBe(1500);
+  });
+
+  it('extracts decimal numbers', () => {
+    expect(extractNumber('99.50')).toBe(99.5);
+  });
+
+  it('returns 0 when string has no numbers', () => {
+    expect(extractNumber('no numbers here')).toBe(0);
+  });
+
+  it('returns 0 for empty string', () => {
+    expect(extractNumber('')).toBe(0);
+  });
+});
 
 describe('/api/gofundme', () => {
   const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
@@ -198,6 +222,100 @@ describe('/api/gofundme', () => {
 
       expect(data.amountRaised).toBe(1500);
       expect(data.goalAmount).toBe(10000);
+    });
+
+    it('returns fallback with flag when parseGoFundMePage returns null', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      // Mock text() to throw during parsing to trigger the catch block
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => {
+          // Return an object that will cause JSON.parse or similar to fail
+          // Actually, we need to trigger an exception in parseGoFundMePage
+          // The simplest way is to make the regex throw by passing something weird
+          return Promise.resolve(null as unknown as string);
+        },
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.fallback).toBe(true);
+    });
+
+    it('parses separate raised and goal patterns', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      // Use format that doesn't match "X of Y goal" pattern
+      const mockHtml = `
+        <html>
+          <body>
+            <span>$75 raised</span>
+            <span>$500 goal</span>
+          </body>
+        </html>
+      `;
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockHtml),
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      expect(data.amountRaised).toBe(75);
+      expect(data.goalAmount).toBe(500);
+    });
+
+    it('handles zero goal amount', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      const mockHtml = `
+        <html>
+          <body>
+            <span>$100 raised</span>
+            <span>$0 goal</span>
+          </body>
+        </html>
+      `;
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockHtml),
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      expect(data.percentComplete).toBe(0);
+    });
+
+    it('handles text without numbers', async () => {
+      const { GET } = await import('@/app/api/gofundme/route');
+
+      const mockHtml = `
+        <html>
+          <body>
+            <span>no numbers raised</span>
+            <span>no numbers goal</span>
+          </body>
+        </html>
+      `;
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockHtml),
+      } as Response);
+
+      const response = await GET();
+      const data = await response.json();
+
+      // Should use defaults when no numbers found
+      expect(data.amountRaised).toBe(0);
+      expect(data.goalAmount).toBe(450); // Default
     });
   });
 });

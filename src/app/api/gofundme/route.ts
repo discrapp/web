@@ -13,7 +13,8 @@ interface CampaignData {
   url: string;
 }
 
-function extractNumber(text: string): number {
+// Exported for testing
+export function extractNumber(text: string): number {
   const match = text.replace(/,/g, '').match(/[\d.]+/);
   return match ? parseFloat(match[0]) : 0;
 }
