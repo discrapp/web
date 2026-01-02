@@ -427,4 +427,3 @@ describe('error-reporter NODE_ENV fallback', () => {
     process.env.NODE_ENV = originalNodeEnv;
   });
 });
-

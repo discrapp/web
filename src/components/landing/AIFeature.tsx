@@ -31,7 +31,7 @@ export default function AIFeature() {
             AI-Powered Features
           </h2>
           <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-            Two intelligent features to help you play your best round
+            Three intelligent features to help you play your best round
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export default function AIFeature() {
         </div>
 
         {/* Feature 2: Shot Advisor */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           {/* Visual/illustration - on left for this feature */}
           <div className="relative order-2 lg:order-1">
             <div className="relative mx-auto w-72 h-72 sm:w-80 sm:h-80">
@@ -297,6 +297,138 @@ export default function AIFeature() {
                 </span>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Feature 3: Fill My Bag */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Text content */}
+          <div>
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
+              Fill My Bag
+              <br />
+              <span className="text-violet-600 dark:text-violet-400">
+                AI Disc Recommendations
+              </span>
+            </h3>
+            <p className="mt-6 text-lg text-zinc-700 dark:text-zinc-300">
+              Not sure what disc to buy next? AI analyzes your bag to identify
+              gaps in your collection and recommends the perfect discs to
+              complete your arsenal, with direct links to purchase.
+            </p>
+            <ul className="mt-8 space-y-4">
+              <li className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
+                  <svg
+                    className="w-4 h-4 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  Analyzes your bag for speed gaps and stability coverage
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
+                  <svg
+                    className="w-4 h-4 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  Recommends 1, 3, or 5 discs based on your preferences
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
+                  <svg
+                    className="w-4 h-4 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  One-tap purchase links to get your new discs
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Visual/illustration */}
+          <div className="relative">
+            <div className="relative mx-auto w-72 h-72 sm:w-80 sm:h-80">
+              {/* Phone mockup frame */}
+              <div className="absolute inset-0 bg-zinc-900 dark:bg-zinc-800 rounded-[3rem] shadow-2xl" />
+              <div className="absolute inset-2 bg-zinc-800 dark:bg-zinc-700 rounded-[2.5rem]" />
+              <div className="absolute inset-4 bg-gradient-to-br from-amber-500 to-orange-600 rounded-[2rem] flex items-center justify-center">
+                {/* Bag/recommendation illustration */}
+                <div className="relative">
+                  <svg
+                    className="w-20 h-20 text-white/80"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Recommendation badge */}
+              <div className="absolute -right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-4 w-52">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                  <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
+                    Gap Found
+                  </span>
+                </div>
+                <div className="text-sm font-semibold text-zinc-900 dark:text-white">
+                  Innova Leopard
+                </div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                  6 | 5 | -2 | 1
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-xs bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-2 py-0.5 rounded font-medium">
+                    Understable
+                  </span>
+                </div>
+                <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
+                  Missing fairway driver
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
