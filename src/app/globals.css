@@ -29,8 +29,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #121212;
     --foreground: #ededed;
+
+    /* Dark mode surface colors (unified with mobile) */
+    --surface-card: #1e1e1e;
+    --surface-elevated: #252525;
+    --surface-border: #2e2e2e;
   }
 }
 

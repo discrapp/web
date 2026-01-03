@@ -612,7 +612,24 @@ describe('NewSection', () => {
 });
 ```
 
-### Tailwind Dark Mode Pattern
+### Unified Color System (consistent across mobile, web, admin)
+
+**Dark Mode Surfaces (Material Design elevation):**
+
+| Purpose | Hex | CSS Variable | Tailwind |
+|---------|-----|--------------|----------|
+| Background | `#121212` | `var(--background)` | `bg-background` |
+| Card/Surface | `#1e1e1e` | `var(--surface-card)` | `dark:bg-zinc-900` |
+| Elevated | `#252525` | `var(--surface-elevated)` | `dark:bg-zinc-800` |
+| Border | `#2e2e2e` | `var(--surface-border)` | `dark:border-zinc-700` |
+
+**Light Mode:**
+
+- Background: `#fff`
+- Cards: `#f8f8f8` / `dark:bg-zinc-50`
+- Borders: `#eee`, `#ddd`
+
+**Tailwind Pattern:**
 
 ```typescript
 // Always include both light and dark variants
