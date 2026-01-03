@@ -257,6 +257,371 @@ This web app works with iOS Universal Links and Android App Links:
 - The web page stores the QR code in localStorage for deferred deep linking
   after app install
 
+---
+
+## Implementation Patterns (For Claude)
+
+### Server Component Pattern
+
+```typescript
+// src/app/page.tsx
+import Navigation from '@/components/landing/Navigation';
+import Hero from '@/components/landing/Hero';
+import Features from '@/components/landing/Features';
+import Footer from '@/components/landing/Footer';
+
+export default function Home() {
+  return (
+    <>
+      <Navigation />
+      <main>
+        <Hero />
+        <Features />
+        {/* More sections */}
+      </main>
+      <Footer />
+    </>
+  );
+}
+```
+
+### Client Component with State
+
+```typescript
+// src/components/landing/Navigation.tsx
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+const navLinks = [
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#features', label: 'Features' },
+];
+
+export default function Navigation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMenuOpen}
+          className="md:hidden"
+        >
+          {/* Menu icon */}
+        </button>
+        <div className={`${isMenuOpen ? 'block' : 'hidden'} md:flex`}>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsMenuOpen(false)}
+              className="text-zinc-700 dark:text-zinc-300 hover:text-violet-600"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
+```
+
+### Landing Section Pattern
+
+```typescript
+// src/components/landing/Features.tsx
+const features = [
+  {
+    title: 'QR Code Scanning',
+    description: 'Instantly identify any registered disc',
+    icon: <QRIcon />,
+  },
+  // ... more features
+];
+
+export default function Features() {
+  return (
+    <section id="features" aria-labelledby="features-heading" className="py-20 bg-zinc-50 dark:bg-zinc-950">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 id="features-heading" className="text-4xl font-bold text-center text-zinc-900 dark:text-white">
+          Features
+        </h2>
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature) => (
+            <div key={feature.title} className="p-6 bg-white dark:bg-zinc-900 rounded-xl">
+              <div className="w-12 h-12 bg-violet-100 dark:bg-violet-900/50 rounded-lg flex items-center justify-center text-violet-600">
+                {feature.icon}
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-zinc-900 dark:text-white">{feature.title}</h3>
+              <p className="mt-2 text-zinc-600 dark:text-zinc-400">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+### Dynamic Page with Data Fetching
+
+```typescript
+// src/app/d/[code]/page.tsx
+'use client';
+
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { reportError } from '@/lib/error-reporter';
+import LoadingSpinner from '@/components/LoadingSpinner';
+
+interface DiscData {
+  found: boolean;
+  disc?: { name: string; manufacturer: string; photo_url?: string };
+  owner_display_name?: string;
+}
+
+export default function DiscLandingPage() {
+  const params = useParams();
+  const code = params?.code as string;
+  const [data, setData] = useState<DiscData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!code) return;
+
+    const fetchDisc = async () => {
+      try {
+        const response = await fetch(
+          `https://xhaogdigrsiwxdjmjzgx.supabase.co/functions/v1/lookup-qr-code?code=${code}`
+        );
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        reportError(err instanceof Error ? err : new Error(String(err)), { code });
+        setError('Failed to load disc');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDisc();
+  }, [code]);
+
+  if (loading) return <LoadingSpinner message="Looking up disc..." />;
+  if (error || !data?.found) return <div>Disc not found</div>;
+
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+      <div className="text-center p-8">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+          {data.disc?.name}
+        </h1>
+        <p className="text-zinc-600 dark:text-zinc-400">
+          Owned by {data.owner_display_name}
+        </p>
+      </div>
+    </main>
+  );
+}
+```
+
+### API Route Pattern
+
+```typescript
+// src/app/api/gofundme/route.ts
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    const response = await fetch('https://www.gofundme.com/f/...', {
+      headers: { 'User-Agent': 'DiscrBot/1.0' },
+      next: { revalidate: 600 }, // 10 min cache
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const html = await response.text();
+    const data = parseGoFundMePage(html);
+
+    return NextResponse.json(data, {
+      headers: { 'Cache-Control': 'public, s-maxage=600' },
+    });
+  } catch (error) {
+    return NextResponse.json({ fallback: true }, { status: 200 });
+  }
+}
+```
+
+### Error Reporting Pattern
+
+```typescript
+// src/lib/error-reporter.ts
+export async function reportError(error: Error, context?: Record<string, unknown>): Promise<void> {
+  if (!SENTRY_DSN || typeof window === 'undefined') return;
+
+  const payload = {
+    event_id: crypto.randomUUID().replace(/-/g, ''),
+    timestamp: new Date().toISOString(),
+    level: 'error',
+    exception: {
+      values: [{ type: error.name, value: error.message }],
+    },
+    extra: context,
+  };
+
+  await fetch('/api/sentry-tunnel', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+// Usage in components:
+try {
+  await fetch('/api/endpoint');
+} catch (err) {
+  reportError(err instanceof Error ? err : new Error(String(err)), {
+    operation: 'fetch-data',
+  });
+}
+```
+
+### Test Pattern
+
+```typescript
+// __tests__/components/landing/Navigation.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import Navigation from '@/components/landing/Navigation';
+
+describe('Navigation', () => {
+  it('renders navigation links', () => {
+    render(<Navigation />);
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+  });
+
+  it('toggles mobile menu', () => {
+    render(<Navigation />);
+    const menuButton = screen.getByRole('button', { name: /open menu/i });
+    fireEvent.click(menuButton);
+    expect(screen.getByRole('button', { name: /close menu/i })).toBeInTheDocument();
+  });
+});
+```
+
+### API Route Test Pattern
+
+```typescript
+// __tests__/app/api/gofundme/route.test.ts
+/**
+ * @jest-environment node
+ */
+
+global.fetch = jest.fn();
+
+describe('GET /api/gofundme', () => {
+  beforeEach(() => {
+    (global.fetch as jest.Mock).mockClear();
+  });
+
+  it('returns campaign data with cache headers', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve('<html>...</html>'),
+    });
+
+    const { GET } = await import('@/app/api/gofundme/route');
+    const response = await GET();
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Cache-Control')).toContain('s-maxage=600');
+  });
+});
+```
+
+### File Map - Where to Edit
+
+| Task | Files to Edit |
+|------|---------------|
+| Add landing section | `src/app/page.tsx` (import), `src/components/landing/[Name].tsx` (create) |
+| Add navigation link | `src/components/landing/Navigation.tsx` (navLinks array) |
+| Add footer link | `src/components/landing/Footer.tsx` |
+| Add API route | `src/app/api/[name]/route.ts` |
+| Fix error handling | `src/lib/error-reporter.ts` |
+| Update colors | `src/app/globals.css` (CSS variables) |
+| Add test | `__tests__/[path].test.tsx` |
+
+### Adding a New Landing Section
+
+1. Create component:
+
+```typescript
+// src/components/landing/NewSection.tsx
+export default function NewSection() {
+  return (
+    <section id="new-section" aria-labelledby="new-section-heading" className="py-20 bg-white dark:bg-zinc-900">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 id="new-section-heading" className="text-4xl font-bold text-center text-zinc-900 dark:text-white">
+          New Section
+        </h2>
+        <p className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
+          Description
+        </p>
+      </div>
+    </section>
+  );
+}
+```
+
+2. Import in page:
+
+```typescript
+// src/app/page.tsx
+import NewSection from '@/components/landing/NewSection';
+
+export default function Home() {
+  return (
+    <>
+      <Navigation />
+      <main>
+        <Hero />
+        <NewSection />  {/* Add here */}
+        {/* ... */}
+      </main>
+    </>
+  );
+}
+```
+
+3. Write test:
+
+```typescript
+// __tests__/components/landing/NewSection.test.tsx
+import { render, screen } from '@testing-library/react';
+import NewSection from '@/components/landing/NewSection';
+
+describe('NewSection', () => {
+  it('renders heading', () => {
+    render(<NewSection />);
+    expect(screen.getByRole('heading', { name: /new section/i })).toBeInTheDocument();
+  });
+});
+```
+
+### Tailwind Dark Mode Pattern
+
+```typescript
+// Always include both light and dark variants
+<div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+<p className="text-zinc-600 dark:text-zinc-400">
+<div className="border-zinc-200 dark:border-zinc-700">
+<button className="bg-violet-600 hover:bg-violet-700 text-white">
+```
+
 ## References
 
 - @README.md - Repository overview
