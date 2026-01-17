@@ -6,16 +6,24 @@ const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
 // Mock localStorage
-const localStorageMock = {
+interface LocalStorageMock {
+  store: Record<string, string>;
+  getItem: jest.Mock;
+  setItem: jest.Mock;
+  removeItem: jest.Mock;
+  clear: jest.Mock;
+}
+
+const localStorageMock: LocalStorageMock = {
   store: {} as Record<string, string>,
-  getItem: jest.fn((key: string) => localStorageMock.store[key] || null),
-  setItem: jest.fn((key: string, value: string) => {
+  getItem: jest.fn((key: string): string | null => localStorageMock.store[key] || null),
+  setItem: jest.fn((key: string, value: string): void => {
     localStorageMock.store[key] = value;
   }),
-  removeItem: jest.fn((key: string) => {
+  removeItem: jest.fn((key: string): void => {
     delete localStorageMock.store[key];
   }),
-  clear: jest.fn(() => {
+  clear: jest.fn((): void => {
     localStorageMock.store = {};
   }),
 };
