@@ -8,8 +8,8 @@ jest.unmock('@/lib/error-reporter');
 type ReportErrorFn = (error: Error, context?: Record<string, unknown>) => Promise<void>;
 type SetupErrorReportingFn = () => void;
 
-let reportError: ReportErrorFn;
-let setupErrorReporting: SetupErrorReportingFn;
+let reportErrorFn: ReportErrorFn;
+let setupErrorReportingFn: SetupErrorReportingFn;
 
 // Dynamically import after setting environment variable
 beforeAll(async () => {
@@ -21,8 +21,8 @@ beforeAll(async () => {
 
   // Now import the functions
   const errorReporterModule = await import('@/lib/error-reporter');
-  reportError = errorReporterModule.reportError;
-  setupErrorReporting = errorReporterModule.setupErrorReporting;
+  reportErrorFn = errorReporterModule.reportError;
+  setupErrorReportingFn = errorReporterModule.setupErrorReporting;
 });
 
 // Mock PromiseRejectionEvent for jsdom
@@ -78,7 +78,7 @@ describe('error-reporter', () => {
       const error = new Error('Test error');
       error.stack = 'Error: Test error\n    at testFunc (file.js:10:5)';
 
-      await reportError(error, { customKey: 'customValue' });
+      await reportErrorFn(error, { customKey: 'customValue' });
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockFetch).toHaveBeenCalledWith(
@@ -130,7 +130,7 @@ describe('error-reporter', () => {
       const error = new Error('Test error');
       const context = { userId: '123', action: 'button-click' };
 
-      await reportError(error, context);
+      await reportErrorFn(error, context);
 
       const callArgs = mockFetch.mock.calls[0];
       const payload = JSON.parse(callArgs[1].body);
@@ -143,7 +143,7 @@ describe('error-reporter', () => {
       mockFetch.mockRejectedValueOnce(fetchError);
 
       const error = new Error('Test error');
-      await reportError(error);
+      await reportErrorFn(error);
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockConsoleError).toHaveBeenCalledWith(
@@ -161,7 +161,7 @@ describe('error-reporter', () => {
     at anotherFunction (http://localhost:3000/other.js:20:15)
     at <anonymous> (http://localhost:3000/main.js:30:25)`;
 
-      await reportError(error);
+      await reportErrorFn(error);
 
       const callArgs = mockFetch.mock.calls[0];
       const payload = JSON.parse(callArgs[1].body);
@@ -194,7 +194,7 @@ describe('error-reporter', () => {
       const error = new Error('Test error');
       delete error.stack;
 
-      await reportError(error);
+      await reportErrorFn(error);
 
       const callArgs = mockFetch.mock.calls[0];
       const payload = JSON.parse(callArgs[1].body);
@@ -209,7 +209,7 @@ describe('error-reporter', () => {
       error.stack = `Error: Test error
     at Object.fn (webpack-internal:///./src/file.ts:45:23)`;
 
-      await reportError(error);
+      await reportErrorFn(error);
 
       const callArgs = mockFetch.mock.calls[0];
       const payload = JSON.parse(callArgs[1].body);
@@ -227,7 +227,7 @@ describe('error-reporter', () => {
     it('sets up window.onerror handler', () => {
       expect(window.onerror).toBeNull();
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       expect(window.onerror).toBeInstanceOf(Function);
     });
@@ -235,7 +235,7 @@ describe('error-reporter', () => {
     it('sets up window.onunhandledrejection handler', () => {
       expect(window.onunhandledrejection).toBeNull();
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       expect(window.onunhandledrejection).toBeInstanceOf(Function);
     });
@@ -243,7 +243,7 @@ describe('error-reporter', () => {
     it('catches unhandled errors via window.onerror', async () => {
       mockFetch.mockResolvedValueOnce({ ok: true });
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       const error = new Error('Unhandled error');
       window.onerror!('Unhandled error', 'file.js', 10, 5, error);
@@ -266,7 +266,7 @@ describe('error-reporter', () => {
     it('creates error from message when error object is missing', async () => {
       mockFetch.mockResolvedValueOnce({ ok: true });
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       window.onerror!('Error message', 'file.js', 10, 5, undefined);
 
@@ -283,7 +283,7 @@ describe('error-reporter', () => {
     it('catches unhandled promise rejections', async () => {
       mockFetch.mockResolvedValueOnce({ ok: true });
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       const error = new Error('Promise rejection');
       // Create a resolved promise to avoid unhandled rejection warnings
@@ -311,7 +311,7 @@ describe('error-reporter', () => {
     it('converts non-Error rejections to Error objects', async () => {
       mockFetch.mockResolvedValueOnce({ ok: true });
 
-      setupErrorReporting();
+      setupErrorReportingFn();
 
       // Create a resolved promise to avoid unhandled rejection warnings
       const dummyPromise = Promise.resolve();
@@ -403,7 +403,7 @@ describe('error-reporter NODE_ENV fallback', () => {
     const originalNodeEnv = process.env.NODE_ENV;
 
     // Delete NODE_ENV to test fallback
-    delete process.env.NODE_ENV;
+    delete (process.env as Record<string, string | undefined>).NODE_ENV;
 
     // Set valid DSN
     process.env.NEXT_PUBLIC_SENTRY_DSN = 'https://publickey@sentry.io/123';
@@ -424,6 +424,6 @@ describe('error-reporter NODE_ENV fallback', () => {
     expect(payload.environment).toBe('production');
 
     // Restore NODE_ENV
-    process.env.NODE_ENV = originalNodeEnv;
+    (process.env as Record<string, string | undefined>).NODE_ENV = originalNodeEnv;
   });
 });
