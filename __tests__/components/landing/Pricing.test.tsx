@@ -4,9 +4,7 @@ import Pricing from '@/components/landing/Pricing';
 describe('Pricing', () => {
   it('renders section heading', () => {
     render(<Pricing />);
-    expect(
-      screen.getByRole('heading', { name: /protect your discs today/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /protect your discs today/i })).toBeInTheDocument();
   });
 
   it('renders pricing tiers', () => {

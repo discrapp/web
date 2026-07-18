@@ -9,12 +9,7 @@ export default function AIFeature() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 text-sm font-medium mb-6">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -42,14 +37,12 @@ export default function AIFeature() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
               Identify Any Disc
               <br />
-              <span className="text-violet-600 dark:text-violet-400">
-                With a Photo
-              </span>
+              <span className="text-violet-600 dark:text-violet-400">With a Photo</span>
             </h3>
             <p className="mt-6 text-lg text-zinc-700 dark:text-zinc-300">
-              Not sure what disc you found or just picked up? Snap a photo and
-              let our AI instantly identify the manufacturer, mold name, and
-              flight numbers. No more guessing or searching through catalogs.
+              Not sure what disc you found or just picked up? Snap a photo and let our AI instantly
+              identify the manufacturer, mold name, and flight numbers. No more guessing or
+              searching through catalogs.
             </p>
             <ul className="mt-8 space-y-4">
               <li className="flex items-start gap-3">
@@ -160,9 +153,7 @@ export default function AIFeature() {
                 <div className="text-sm font-semibold text-zinc-900 dark:text-white">
                   Innova Destroyer
                 </div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                  12 | 5 | -1 | 3
-                </div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">12 | 5 | -1 | 3</div>
               </div>
             </div>
           </div>
@@ -210,13 +201,9 @@ export default function AIFeature() {
                   <span className="text-xs bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 px-2 py-0.5 rounded font-medium">
                     HYZER
                   </span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                    85% power
-                  </span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">85% power</span>
                 </div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
-                  ~285 ft
-                </div>
+                <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">~285 ft</div>
               </div>
             </div>
           </div>
@@ -226,14 +213,12 @@ export default function AIFeature() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
               Shot Advisor
               <br />
-              <span className="text-violet-600 dark:text-violet-400">
-                Your AI Caddy
-              </span>
+              <span className="text-violet-600 dark:text-violet-400">Your AI Caddy</span>
             </h3>
             <p className="mt-6 text-lg text-zinc-700 dark:text-zinc-300">
-              Standing on the tee pad wondering which disc to throw? Photograph
-              any hole and let AI recommend the perfect disc from your bag,
-              complete with throw type and power suggestions.
+              Standing on the tee pad wondering which disc to throw? Photograph any hole and let AI
+              recommend the perfect disc from your bag, complete with throw type and power
+              suggestions.
             </p>
             <ul className="mt-8 space-y-4">
               <li className="flex items-start gap-3">
@@ -307,14 +292,12 @@ export default function AIFeature() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
               Fill My Bag
               <br />
-              <span className="text-violet-600 dark:text-violet-400">
-                AI Disc Recommendations
-              </span>
+              <span className="text-violet-600 dark:text-violet-400">AI Disc Recommendations</span>
             </h3>
             <p className="mt-6 text-lg text-zinc-700 dark:text-zinc-300">
-              Not sure what disc to buy next? AI analyzes your bag to identify
-              gaps in your collection and recommends the perfect discs to
-              complete your arsenal, with direct links to purchase.
+              Not sure what disc to buy next? AI analyzes your bag to identify gaps in your
+              collection and recommends the perfect discs to complete your arsenal, with direct
+              links to purchase.
             </p>
             <ul className="mt-8 space-y-4">
               <li className="flex items-start gap-3">
@@ -416,9 +399,7 @@ export default function AIFeature() {
                 <div className="text-sm font-semibold text-zinc-900 dark:text-white">
                   Innova Leopard
                 </div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                  6 | 5 | -2 | 1
-                </div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">6 | 5 | -2 | 1</div>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-xs bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-2 py-0.5 rounded font-medium">
                     Understable

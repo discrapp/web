@@ -4,12 +4,7 @@ const steps = [
     title: 'Order Stickers',
     description: 'Get QR code stickers delivered to your door',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -24,12 +19,7 @@ const steps = [
     title: 'Attach & Register',
     description: 'Apply to discs, register in the app',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -44,12 +34,7 @@ const steps = [
     title: 'Get Them Back',
     description: 'Finders scan the code and contact you',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -92,17 +77,11 @@ export default function HowItWorks() {
                 <span className="absolute -top-2 -right-2 w-8 h-8 bg-violet-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                   {step.number}
                 </span>
-                <div className="text-violet-600 dark:text-violet-400">
-                  {step.icon}
-                </div>
+                <div className="text-violet-600 dark:text-violet-400">{step.icon}</div>
               </div>
 
-              <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-zinc-700 dark:text-zinc-300">
-                {step.description}
-              </p>
+              <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">{step.title}</h3>
+              <p className="mt-2 text-zinc-700 dark:text-zinc-300">{step.description}</p>
             </div>
           ))}
         </div>

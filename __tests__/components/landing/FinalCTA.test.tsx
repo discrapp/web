@@ -11,17 +11,13 @@ describe('FinalCTA', () => {
 
   it('renders subtitle text', () => {
     render(<FinalCTA />);
-    expect(
-      screen.getByText(/join thousands of disc golfers/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/join thousands of disc golfers/i)).toBeInTheDocument();
   });
 
   it('renders app store badges', () => {
     render(<FinalCTA />);
     expect(screen.getByRole('link', { name: /app store/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /google play/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /google play/i })).toBeInTheDocument();
   });
 
   it('has proper section id', () => {

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import ConnectRefreshPage from '@/app/connect-refresh/page';
 
 // Suppress the jsdom navigation error
@@ -37,16 +37,12 @@ describe('ConnectRefreshPage', () => {
 
   it('renders the session expired title', () => {
     render(<ConnectRefreshPage />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Session Expired'
-    );
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Session Expired');
   });
 
   it('renders the expired message', () => {
     render(<ConnectRefreshPage />);
-    expect(
-      screen.getByText('Your payout setup session has expired.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Your payout setup session has expired.')).toBeInTheDocument();
   });
 
   it('renders the returning to app message', () => {
@@ -57,9 +53,7 @@ describe('ConnectRefreshPage', () => {
   it('renders the retry instruction', () => {
     render(<ConnectRefreshPage />);
     expect(
-      screen.getByText(
-        'Please try again from your profile to complete the setup.'
-      )
+      screen.getByText('Please try again from your profile to complete the setup.')
     ).toBeInTheDocument();
   });
 

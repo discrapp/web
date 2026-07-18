@@ -9,10 +9,7 @@ const sizeClasses = {
   lg: 'w-12 h-12',
 };
 
-export default function LoadingSpinner({
-  size = 'md',
-  message,
-}: LoadingSpinnerProps) {
+export default function LoadingSpinner({ size = 'md', message }: LoadingSpinnerProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-3">
       <div
@@ -21,11 +18,7 @@ export default function LoadingSpinner({
       >
         <span className="sr-only">Loading</span>
       </div>
-      {message && (
-        <p className="text-violet-700 dark:text-violet-300 text-sm">
-          {message}
-        </p>
-      )}
+      {message && <p className="text-violet-700 dark:text-violet-300 text-sm">{message}</p>}
     </div>
   );
 }

@@ -89,7 +89,9 @@ export async function reportError(error: Error, context?: ErrorContext): Promise
 /**
  * Parse a stack trace string into Sentry frame format
  */
-function parseStackTrace(stack?: string): Array<{ filename: string; function: string; lineno?: number; colno?: number }> {
+function parseStackTrace(
+  stack?: string
+): Array<{ filename: string; function: string; lineno?: number; colno?: number }> {
   if (!stack) return [];
 
   const lines = stack.split('\n').slice(1); // Skip the error message line

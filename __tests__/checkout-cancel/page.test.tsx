@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import CheckoutCancelPage from '@/app/checkout-cancel/page';
 
 // Mock next/navigation

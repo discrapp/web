@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CampaignData {
   title: string;
@@ -26,8 +26,7 @@ export function FundingBanner() {
     const dismissedAt = localStorage.getItem(STORAGE_KEY);
     if (dismissedAt) {
       const dismissedDate = new Date(dismissedAt);
-      const daysSinceDismissed =
-        (Date.now() - dismissedDate.getTime()) / (1000 * 60 * 60 * 24);
+      const daysSinceDismissed = (Date.now() - dismissedDate.getTime()) / (1000 * 60 * 60 * 24);
       if (daysSinceDismissed < DISMISS_DURATION_DAYS) {
         setDismissed(true);
         setLoading(false);
@@ -99,8 +98,8 @@ export function FundingBanner() {
             {!data.error && !data.fallback && (
               <div className="flex items-center gap-3">
                 <span className="text-violet-200 text-sm">
-                  ${data.amountRaised.toLocaleString()} of $
-                  {data.goalAmount.toLocaleString()} raised
+                  ${data.amountRaised.toLocaleString()} of ${data.goalAmount.toLocaleString()}{' '}
+                  raised
                 </span>
                 <div className="w-24 sm:w-32 h-2 bg-violet-700 rounded-full overflow-hidden">
                   <div
@@ -113,9 +112,7 @@ export function FundingBanner() {
                     aria-label={`${data.percentComplete}% funded`}
                   />
                 </div>
-                <span className="text-violet-300 text-sm font-medium">
-                  {data.percentComplete}%
-                </span>
+                <span className="text-violet-300 text-sm font-medium">{data.percentComplete}%</span>
               </div>
             )}
           </div>
@@ -145,6 +142,7 @@ export function FundingBanner() {
               </svg>
             </a>
             <button
+              type="button"
               onClick={handleDismiss}
               className="p-2 text-violet-300 hover:text-white transition-colors"
               aria-label="Dismiss banner"

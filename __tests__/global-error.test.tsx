@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { reportError } from '@/lib/error-reporter';
+import { fireEvent, render, screen } from '@testing-library/react';
 import GlobalError from '@/app/global-error';
+import { reportError } from '@/lib/error-reporter';
 
 jest.mock('@/lib/error-reporter');
 
@@ -16,9 +16,7 @@ describe('GlobalError component', () => {
     render(<GlobalError error={mockError} reset={mockReset} />);
 
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
-    expect(
-      screen.getByText('We encountered an unexpected error.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('We encountered an unexpected error.')).toBeInTheDocument();
   });
 
   it('renders try again button', () => {
@@ -38,8 +36,11 @@ describe('GlobalError component', () => {
   it('reports error to Sentry', () => {
     render(<GlobalError error={mockError} reset={mockReset} />);
 
-    expect(reportError).toHaveBeenCalledWith(mockError, expect.objectContaining({
-      boundary: 'global',
-    }));
+    expect(reportError).toHaveBeenCalledWith(
+      mockError,
+      expect.objectContaining({
+        boundary: 'global',
+      })
+    );
   });
 });

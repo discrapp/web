@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import CheckoutSuccessPage from '@/app/checkout-success/page';
 
 // Mock next/navigation
@@ -46,9 +46,7 @@ describe('CheckoutSuccessPage', () => {
 
   it('renders success description', () => {
     render(<CheckoutSuccessPage />);
-    expect(
-      screen.getByText('Your order has been placed successfully.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Your order has been placed successfully.')).toBeInTheDocument();
   });
 
   it('renders close window instruction', () => {

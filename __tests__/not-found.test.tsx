@@ -8,9 +8,7 @@ describe('NotFound (404 Page)', () => {
     });
 
     it('has correct description', () => {
-      expect(metadata.description).toBe(
-        'The page you are looking for could not be found.'
-      );
+      expect(metadata.description).toBe('The page you are looking for could not be found.');
     });
   });
 
@@ -26,9 +24,7 @@ describe('NotFound (404 Page)', () => {
 
   it('renders a descriptive message', () => {
     render(<NotFound />);
-    expect(
-      screen.getByText(/the page you're looking for doesn't exist/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/the page you're looking for doesn't exist/i)).toBeInTheDocument();
   });
 
   it('renders a link to go back home', () => {

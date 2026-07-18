@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { FundingBanner } from '@/components/FundingBanner';
 
 // Mock fetch
@@ -64,9 +64,7 @@ describe('FundingBanner', () => {
       render(<FundingBanner />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('link', { name: /support on gofundme/i })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: /support on gofundme/i })).toBeInTheDocument();
       });
 
       const link = screen.getByRole('link', { name: /support on gofundme/i });
@@ -79,9 +77,7 @@ describe('FundingBanner', () => {
       render(<FundingBanner />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: /dismiss banner/i })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /dismiss banner/i })).toBeInTheDocument();
       });
     });
 
@@ -89,9 +85,7 @@ describe('FundingBanner', () => {
       render(<FundingBanner />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('banner', { name: /funding campaign/i })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('banner', { name: /funding campaign/i })).toBeInTheDocument();
       });
 
       const progressBar = screen.getByRole('progressbar');
@@ -185,8 +179,7 @@ describe('FundingBanner', () => {
       // Set dismiss time to 3 days ago
       const threeDaysAgo = new Date();
       threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-      localStorageMock.store['discr-funding-banner-dismissed'] =
-        threeDaysAgo.toISOString();
+      localStorageMock.store['discr-funding-banner-dismissed'] = threeDaysAgo.toISOString();
 
       render(<FundingBanner />);
 
@@ -201,8 +194,7 @@ describe('FundingBanner', () => {
       // Set dismiss time to 10 days ago
       const tenDaysAgo = new Date();
       tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-      localStorageMock.store['discr-funding-banner-dismissed'] =
-        tenDaysAgo.toISOString();
+      localStorageMock.store['discr-funding-banner-dismissed'] = tenDaysAgo.toISOString();
 
       render(<FundingBanner />);
 
@@ -219,9 +211,7 @@ describe('FundingBanner', () => {
       render(<FundingBanner />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('link', { name: /support on gofundme/i })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: /support on gofundme/i })).toBeInTheDocument();
       });
     });
 

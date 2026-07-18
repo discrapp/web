@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const GOFUNDME_URL =
-  'https://www.gofundme.com/f/help-launch-discr-lost-disc-recovery-app-7s6kw';
+const GOFUNDME_URL = 'https://www.gofundme.com/f/help-launch-discr-lost-disc-recovery-app-7s6kw';
 const CACHE_DURATION_SECONDS = 600; // 10 minutes
 
 interface CampaignData {
@@ -30,9 +29,7 @@ export function stripHtml(html: string): string {
 function parseGoFundMePage(html: string): CampaignData | null {
   try {
     // Extract title from og:title meta tag
-    const titleMatch = html.match(
-      /<meta[^>]*property="og:title"[^>]*content="([^"]+)"/i
-    );
+    const titleMatch = html.match(/<meta[^>]*property="og:title"[^>]*content="([^"]+)"/i);
     const title = titleMatch
       ? titleMatch[1].replace(' - GoFundMe', '').trim()
       : 'Help Launch Discr';
@@ -42,9 +39,7 @@ function parseGoFundMePage(html: string): CampaignData | null {
 
     // Look for amount raised - GoFundMe format: "$50 raised of 450"
     // Pattern 1: "$X raised of $Y" or "$X raised of Y" (goal may not have $)
-    const progressMatch = plainText.match(
-      /\$?([\d,]+)\s+raised\s+of\s+\$?([\d,]+)/i
-    );
+    const progressMatch = plainText.match(/\$?([\d,]+)\s+raised\s+of\s+\$?([\d,]+)/i);
 
     let amountRaised = 0;
     let goalAmount = 450; // Default to known goal
@@ -66,8 +61,7 @@ function parseGoFundMePage(html: string): CampaignData | null {
     const donationCount = donationMatch ? extractNumber(donationMatch[1]) : 0;
 
     // Calculate percentage
-    const percentComplete =
-      goalAmount > 0 ? Math.round((amountRaised / goalAmount) * 100) : 0;
+    const percentComplete = goalAmount > 0 ? Math.round((amountRaised / goalAmount) * 100) : 0;
 
     return {
       title,
@@ -86,8 +80,7 @@ export async function GET() {
   try {
     const response = await fetch(GOFUNDME_URL, {
       headers: {
-        'User-Agent':
-          'Mozilla/5.0 (compatible; DiscrBot/1.0; +https://discrapp.com)',
+        'User-Agent': 'Mozilla/5.0 (compatible; DiscrBot/1.0; +https://discrapp.com)',
         Accept: 'text/html',
       },
       next: { revalidate: CACHE_DURATION_SECONDS },

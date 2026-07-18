@@ -36,11 +36,7 @@ const features = [
 
 export default function Pricing() {
   return (
-    <section
-      id="order"
-      aria-labelledby="order-heading"
-      className="py-20 bg-white dark:bg-zinc-900"
-    >
+    <section id="order" aria-labelledby="order-heading" className="py-20 bg-white dark:bg-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h2
@@ -134,9 +130,7 @@ export default function Pricing() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-zinc-700 dark:text-zinc-300">
-                  {feature}
-                </span>
+                <span className="text-zinc-700 dark:text-zinc-300">{feature}</span>
               </li>
             ))}
           </ul>

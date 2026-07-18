@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { NextRequest } from 'next/server';
-import { middleware, config } from '@/middleware';
+import { config, middleware } from '@/middleware';
 
 describe('middleware', () => {
   it('redirects www.discrapp.com to discrapp.com with 301 status', () => {

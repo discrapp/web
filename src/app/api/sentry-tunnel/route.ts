@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const SENTRY_HOST = process.env.SENTRY_HOST;
 const SENTRY_PROJECT_ID = process.env.SENTRY_PROJECT_ID;

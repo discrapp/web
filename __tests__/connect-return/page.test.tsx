@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import ConnectReturnPage from '@/app/connect-return/page';
 
 // Suppress the jsdom navigation error
@@ -37,9 +37,7 @@ describe('ConnectReturnPage', () => {
 
   it('renders the success title', () => {
     render(<ConnectReturnPage />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Payout Setup Complete!'
-    );
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Payout Setup Complete!');
   });
 
   it('renders the success message', () => {
@@ -57,9 +55,7 @@ describe('ConnectReturnPage', () => {
   it('renders the fallback instruction', () => {
     render(<ConnectReturnPage />);
     expect(
-      screen.getByText(
-        "If the app doesn't open, you can close this window and return manually."
-      )
+      screen.getByText("If the app doesn't open, you can close this window and return manually.")
     ).toBeInTheDocument();
   });
 

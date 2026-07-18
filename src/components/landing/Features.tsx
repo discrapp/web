@@ -4,12 +4,7 @@ const aiFeatures = [
     description:
       'Snap a photo of any disc and instantly identify the manufacturer, mold, and flight numbers',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -30,12 +25,7 @@ const aiFeatures = [
     description:
       'No QR code? Take a photo of the phone number on any disc and AI will find the owner',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -50,12 +40,7 @@ const aiFeatures = [
     description:
       'Photograph any hole from the tee and get a personalized disc recommendation with throw type and power',
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -72,12 +57,7 @@ const features = [
     title: 'QR Code Scanning',
     description: 'Instantly identify any registered disc with a quick scan',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -89,15 +69,9 @@ const features = [
   },
   {
     title: 'Disc Inventory',
-    description:
-      'Track your entire collection with photos and flight numbers',
+    description: 'Track your entire collection with photos and flight numbers',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -111,12 +85,7 @@ const features = [
     title: 'Recovery Workflow',
     description: 'Coordinate meetups with finders seamlessly',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -130,12 +99,7 @@ const features = [
     title: 'Reward System',
     description: 'Set optional rewards for your disc returns',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -149,12 +113,7 @@ const features = [
     title: 'Rich Catalog',
     description: 'Browse manufacturers, molds, and plastic types',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -168,12 +127,7 @@ const features = [
     title: 'Order Tracking',
     description: 'Track your sticker orders from print to delivery',
     icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -212,12 +166,7 @@ export default function Features() {
             >
               <div className="absolute top-4 right-4">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/20 text-white text-xs font-medium">
-                  <svg
-                    className="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -231,9 +180,7 @@ export default function Features() {
               <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-white">
                 {feature.icon}
               </div>
-              <h3 className="mt-5 text-xl font-bold text-white">
-                {feature.title}
-              </h3>
+              <h3 className="mt-5 text-xl font-bold text-white">{feature.title}</h3>
               <p className="mt-3 text-violet-100">{feature.description}</p>
             </div>
           ))}
@@ -252,9 +199,7 @@ export default function Features() {
               <h3 className="mt-4 text-lg font-semibold text-zinc-900 dark:text-white">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-zinc-700 dark:text-zinc-300">
-                {feature.description}
-              </p>
+              <p className="mt-2 text-zinc-700 dark:text-zinc-300">{feature.description}</p>
             </div>
           ))}
         </div>

@@ -4,9 +4,7 @@ import AppScreenshots from '@/components/landing/AppScreenshots';
 describe('AppScreenshots', () => {
   it('renders section heading', () => {
     render(<AppScreenshots />);
-    expect(
-      screen.getByRole('heading', { name: /see discr. in action/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /see discr. in action/i })).toBeInTheDocument();
   });
 
   it('renders screenshot descriptions', () => {

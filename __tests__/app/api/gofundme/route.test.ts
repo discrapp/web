@@ -103,9 +103,7 @@ describe('/api/gofundme', () => {
       const response = await GET();
 
       expect(response.headers.get('Cache-Control')).toContain('s-maxage=600');
-      expect(response.headers.get('Cache-Control')).toContain(
-        'stale-while-revalidate'
-      );
+      expect(response.headers.get('Cache-Control')).toContain('stale-while-revalidate');
     });
 
     it('returns default values when page has no matching data', async () => {

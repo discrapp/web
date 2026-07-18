@@ -4,9 +4,7 @@ import Testimonials from '@/components/landing/Testimonials';
 describe('Testimonials', () => {
   it('renders section heading', () => {
     render(<Testimonials />);
-    expect(
-      screen.getByRole('heading', { name: /what players are saying/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /what players are saying/i })).toBeInTheDocument();
   });
 
   it('renders three testimonials', () => {
