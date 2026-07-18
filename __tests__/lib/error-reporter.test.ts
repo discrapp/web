@@ -37,7 +37,9 @@ class MockPromiseRejectionEvent extends Event {
   }
 }
 
-(global as unknown as { PromiseRejectionEvent: typeof MockPromiseRejectionEvent }).PromiseRejectionEvent = MockPromiseRejectionEvent;
+(
+  global as unknown as { PromiseRejectionEvent: typeof MockPromiseRejectionEvent }
+).PromiseRejectionEvent = MockPromiseRejectionEvent;
 
 describe('error-reporter', () => {
   const mockFetch = jest.fn();
@@ -350,18 +352,14 @@ describe('error-reporter without DSN', () => {
     jest.resetModules();
     delete process.env.NEXT_PUBLIC_SENTRY_DSN;
 
-    const { reportError: reportErrorNoDsn } = await import(
-      '@/lib/error-reporter'
-    );
+    const { reportError: reportErrorNoDsn } = await import('@/lib/error-reporter');
 
     const error = new Error('Test error');
     await reportErrorNoDsn(error, { context: 'test' });
 
-    expect(mockConsoleError).toHaveBeenCalledWith(
-      'Error (Sentry disabled):',
-      error,
-      { context: 'test' }
-    );
+    expect(mockConsoleError).toHaveBeenCalledWith('Error (Sentry disabled):', error, {
+      context: 'test',
+    });
   });
 
   it('logs error when DSN is invalid', async () => {
@@ -369,9 +367,7 @@ describe('error-reporter without DSN', () => {
     jest.resetModules();
     process.env.NEXT_PUBLIC_SENTRY_DSN = 'not-a-valid-url';
 
-    const { reportError: reportErrorInvalidDsn } = await import(
-      '@/lib/error-reporter'
-    );
+    const { reportError: reportErrorInvalidDsn } = await import('@/lib/error-reporter');
 
     const error = new Error('Test error');
     await reportErrorInvalidDsn(error);
@@ -408,9 +404,7 @@ describe('error-reporter NODE_ENV fallback', () => {
     // Set valid DSN
     process.env.NEXT_PUBLIC_SENTRY_DSN = 'https://publickey@sentry.io/123';
 
-    const { reportError: reportErrorNoEnv } = await import(
-      '@/lib/error-reporter'
-    );
+    const { reportError: reportErrorNoEnv } = await import('@/lib/error-reporter');
 
     mockFetch.mockResolvedValueOnce({ ok: true });
 

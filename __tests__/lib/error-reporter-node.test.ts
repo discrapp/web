@@ -36,10 +36,8 @@ describe('error-reporter in Node environment', () => {
     await reportError(error, { context: 'test' });
 
     // Should log to console since window is undefined
-    expect(mockConsoleError).toHaveBeenCalledWith(
-      'Error (Sentry disabled):',
-      error,
-      { context: 'test' }
-    );
+    expect(mockConsoleError).toHaveBeenCalledWith('Error (Sentry disabled):', error, {
+      context: 'test',
+    });
   });
 });

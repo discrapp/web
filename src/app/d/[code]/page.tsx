@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { reportError } from '@/lib/error-reporter';
 
 interface DiscData {
@@ -17,8 +17,7 @@ interface DiscData {
   is_claimable?: boolean;
 }
 
-const API_URL =
-  'https://xhaogdigrsiwxdjmjzgx.supabase.co/functions/v1/lookup-qr-code';
+const API_URL = 'https://xhaogdigrsiwxdjmjzgx.supabase.co/functions/v1/lookup-qr-code';
 
 // Color map matching the mobile app
 const COLOR_MAP: Record<string, string> = {
@@ -125,9 +124,7 @@ export default function DiscLandingPage() {
         <div className="flex flex-col items-center gap-4">
           {/* Spinner */}
           <div className="w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin" />
-          <p className="text-lg text-violet-700 dark:text-violet-300">
-            Looking up disc...
-          </p>
+          <p className="text-lg text-violet-700 dark:text-violet-300">Looking up disc...</p>
         </div>
       </main>
     );
@@ -162,23 +159,14 @@ export default function DiscLandingPage() {
         {/* Disc Photo */}
         {disc?.photo_url && (
           <div className="relative w-48 h-48 rounded-full overflow-hidden shadow-lg">
-            <Image
-              src={disc.photo_url}
-              alt={disc.name || 'Disc'}
-              fill
-              className="object-cover"
-            />
+            <Image src={disc.photo_url} alt={disc.name || 'Disc'} fill className="object-cover" />
           </div>
         )}
 
         {/* Disc Info */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-violet-900 dark:text-violet-100">
-            {disc?.name}
-          </h2>
-          <p className="text-lg text-violet-700 dark:text-violet-300">
-            {disc?.manufacturer}
-          </p>
+          <h2 className="text-2xl font-bold text-violet-900 dark:text-violet-100">{disc?.name}</h2>
+          <p className="text-lg text-violet-700 dark:text-violet-300">{disc?.manufacturer}</p>
           {disc?.color && (
             <span className="inline-flex items-center mt-2 px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-100 rounded-full text-sm">
               <ColorDot color={disc.color} />
@@ -231,6 +219,7 @@ export default function DiscLandingPage() {
               After installing, enter this code in the app:
             </p>
             <button
+              type="button"
               onClick={copyCodeToClipboard}
               className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-800 px-4 py-2 rounded-lg font-mono text-lg font-bold text-violet-900 dark:text-violet-100 hover:bg-violet-200 dark:hover:bg-violet-700 transition-colors"
             >

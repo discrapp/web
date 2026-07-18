@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ShipOrderPage from '@/app/ship-order/page';
 
 // Mock next/navigation
@@ -36,9 +36,7 @@ describe('ShipOrderPage', () => {
     it('does not show form', () => {
       render(<ShipOrderPage />);
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
-      expect(
-        screen.queryByRole('button', { name: /mark as shipped/i })
-      ).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /mark as shipped/i })).not.toBeInTheDocument();
     });
   });
 
@@ -54,24 +52,18 @@ describe('ShipOrderPage', () => {
 
     it('renders tracking number input', () => {
       render(<ShipOrderPage />);
-      expect(
-        screen.getByPlaceholderText('Enter tracking number (optional)')
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Enter tracking number (optional)')).toBeInTheDocument();
     });
 
     it('renders submit button', () => {
       render(<ShipOrderPage />);
-      expect(
-        screen.getByRole('button', { name: 'Mark as Shipped' })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Mark as Shipped' })).toBeInTheDocument();
     });
 
     it('allows entering tracking number', () => {
       render(<ShipOrderPage />);
 
-      const input = screen.getByPlaceholderText(
-        'Enter tracking number (optional)'
-      );
+      const input = screen.getByPlaceholderText('Enter tracking number (optional)');
       fireEvent.change(input, { target: { value: 'TRACK123' } });
 
       expect(input).toHaveValue('TRACK123');
@@ -124,9 +116,7 @@ describe('ShipOrderPage', () => {
 
       render(<ShipOrderPage />);
 
-      const input = screen.getByPlaceholderText(
-        'Enter tracking number (optional)'
-      );
+      const input = screen.getByPlaceholderText('Enter tracking number (optional)');
       fireEvent.change(input, { target: { value: 'TRACK456' } });
       fireEvent.click(screen.getByRole('button', { name: 'Mark as Shipped' }));
 
@@ -175,9 +165,7 @@ describe('ShipOrderPage', () => {
       });
 
       render(<ShipOrderPage />);
-      const input = screen.getByPlaceholderText(
-        'Enter tracking number (optional)'
-      );
+      const input = screen.getByPlaceholderText('Enter tracking number (optional)');
       fireEvent.change(input, { target: { value: 'TRACK789' } });
       fireEvent.click(screen.getByRole('button', { name: 'Mark as Shipped' }));
 
@@ -226,9 +214,7 @@ describe('ShipOrderPage', () => {
       await waitFor(() => {
         expect(screen.getByText('Update Failed')).toBeInTheDocument();
       });
-      expect(
-        screen.getByText('Network error. Please try again.')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Network error. Please try again.')).toBeInTheDocument();
     });
 
     it('shows Try Again button on error', async () => {
@@ -238,9 +224,7 @@ describe('ShipOrderPage', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Mark as Shipped' }));
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'Try Again' })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
       });
     });
 
@@ -251,24 +235,18 @@ describe('ShipOrderPage', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Mark as Shipped' }));
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'Try Again' })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
       });
 
       fireEvent.click(screen.getByRole('button', { name: 'Try Again' }));
 
       expect(screen.getByText('Mark Order as Shipped')).toBeInTheDocument();
-      expect(
-        screen.getByPlaceholderText('Enter tracking number (optional)')
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Enter tracking number (optional)')).toBeInTheDocument();
     });
 
     it('changes input border color on focus and blur', () => {
       render(<ShipOrderPage />);
-      const input = screen.getByPlaceholderText(
-        'Enter tracking number (optional)'
-      );
+      const input = screen.getByPlaceholderText('Enter tracking number (optional)');
 
       // Focus the input
       fireEvent.focus(input);

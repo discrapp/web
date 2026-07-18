@@ -23,9 +23,7 @@ describe('Hero', () => {
   it('renders app store badges', () => {
     render(<Hero />);
     expect(screen.getByRole('link', { name: /app store/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /google play/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /google play/i })).toBeInTheDocument();
   });
 
   it('renders learn more link', () => {

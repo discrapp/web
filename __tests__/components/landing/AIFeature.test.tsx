@@ -5,9 +5,7 @@ describe('AIFeature', () => {
   describe('Disc Identification Feature', () => {
     it('renders the disc identification heading', () => {
       render(<AIFeature />);
-      expect(
-        screen.getByRole('heading', { name: /identify any disc/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /identify any disc/i })).toBeInTheDocument();
     });
 
     it('renders the powered by AI badge', () => {
@@ -24,15 +22,9 @@ describe('AIFeature', () => {
 
     it('renders disc identification feature bullet points', () => {
       render(<AIFeature />);
-      expect(
-        screen.getByText(/recognizes stamps, logos, and text/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/auto-fills flight numbers/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/works even with worn or faded stamps/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/recognizes stamps, logos, and text/i)).toBeInTheDocument();
+      expect(screen.getByText(/auto-fills flight numbers/i)).toBeInTheDocument();
+      expect(screen.getByText(/works even with worn or faded stamps/i)).toBeInTheDocument();
     });
 
     it('renders the identification result mockup', () => {
@@ -51,9 +43,7 @@ describe('AIFeature', () => {
   describe('Shot Advisor Feature', () => {
     it('renders the shot advisor heading', () => {
       render(<AIFeature />);
-      expect(
-        screen.getByRole('heading', { name: /shot advisor/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /shot advisor/i })).toBeInTheDocument();
     });
 
     it('renders the shot advisor description', () => {
@@ -65,15 +55,9 @@ describe('AIFeature', () => {
 
     it('renders shot advisor feature bullet points', () => {
       render(<AIFeature />);
-      expect(
-        screen.getByText(/estimates distance from your photo/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/recommends the best disc from your bag/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/suggests throw type and power/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/estimates distance from your photo/i)).toBeInTheDocument();
+      expect(screen.getByText(/recommends the best disc from your bag/i)).toBeInTheDocument();
+      expect(screen.getByText(/suggests throw type and power/i)).toBeInTheDocument();
     });
 
     it('renders the shot advisor result mockup', () => {

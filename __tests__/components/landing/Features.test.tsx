@@ -4,26 +4,20 @@ import Features from '@/components/landing/Features';
 describe('Features', () => {
   it('renders section heading', () => {
     render(<Features />);
-    expect(
-      screen.getByRole('heading', { name: /features/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /features/i })).toBeInTheDocument();
   });
 
   describe('AI Features (highlighted)', () => {
     it('renders AI Disc Identification feature', () => {
       render(<Features />);
       expect(screen.getByText(/ai disc identification/i)).toBeInTheDocument();
-      expect(
-        screen.getByText(/snap a photo.*instantly identify/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/snap a photo.*instantly identify/i)).toBeInTheDocument();
     });
 
     it('renders AI Shot Advisor feature', () => {
       render(<Features />);
       expect(screen.getByText(/ai shot advisor/i)).toBeInTheDocument();
-      expect(
-        screen.getByText(/photograph any hole.*disc recommendation/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/photograph any hole.*disc recommendation/i)).toBeInTheDocument();
     });
 
     it('renders powered by AI badge', () => {
@@ -45,12 +39,8 @@ describe('Features', () => {
 
     it('renders feature descriptions', () => {
       render(<Features />);
-      expect(
-        screen.getByText(/instantly identify any registered disc/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/track your entire collection/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/instantly identify any registered disc/i)).toBeInTheDocument();
+      expect(screen.getByText(/track your entire collection/i)).toBeInTheDocument();
     });
   });
 

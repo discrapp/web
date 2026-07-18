@@ -9,9 +9,7 @@ describe('AppStoreBadges', () => {
 
   it('renders Google Play link', () => {
     render(<AppStoreBadges />);
-    expect(
-      screen.getByRole('link', { name: /google play/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /google play/i })).toBeInTheDocument();
   });
 
   it('has correct App Store href', () => {

@@ -4,9 +4,7 @@ import HowItWorks from '@/components/landing/HowItWorks';
 describe('HowItWorks', () => {
   it('renders section heading', () => {
     render(<HowItWorks />);
-    expect(
-      screen.getByRole('heading', { name: /how it works/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /how it works/i })).toBeInTheDocument();
   });
 
   it('renders three steps', () => {
@@ -18,15 +16,9 @@ describe('HowItWorks', () => {
 
   it('renders step descriptions', () => {
     render(<HowItWorks />);
-    expect(
-      screen.getByText(/qr code stickers delivered to your door/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/apply to discs, register in the app/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/finders scan the code and contact you/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/qr code stickers delivered to your door/i)).toBeInTheDocument();
+    expect(screen.getByText(/apply to discs, register in the app/i)).toBeInTheDocument();
+    expect(screen.getByText(/finders scan the code and contact you/i)).toBeInTheDocument();
   });
 
   it('has proper section id for navigation', () => {

@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { reportError } from '@/lib/error-reporter';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ErrorPage from '@/app/error';
+import { reportError } from '@/lib/error-reporter';
 
 jest.mock('@/lib/error-reporter');
 
@@ -16,9 +16,7 @@ describe('Error component', () => {
     render(<ErrorPage error={mockError} reset={mockReset} />);
 
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
-    expect(
-      screen.getByText('We encountered an error loading this page.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('We encountered an error loading this page.')).toBeInTheDocument();
   });
 
   it('renders try again button', () => {
@@ -38,8 +36,11 @@ describe('Error component', () => {
   it('reports error to Sentry', () => {
     render(<ErrorPage error={mockError} reset={mockReset} />);
 
-    expect(reportError).toHaveBeenCalledWith(mockError, expect.objectContaining({
-      boundary: 'page',
-    }));
+    expect(reportError).toHaveBeenCalledWith(
+      mockError,
+      expect.objectContaining({
+        boundary: 'page',
+      })
+    );
   });
 });

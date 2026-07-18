@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const navLinks = [
   { href: '#how-it-works', label: 'How It Works' },
@@ -55,9 +55,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider">
-              Legal
-            </h3>
+            <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider">Legal</h3>
             <ul className="mt-4 space-y-2">
               {legalLinks.map((link) => (
                 <li key={link.href}>

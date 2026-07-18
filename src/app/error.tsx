@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { reportError } from '@/lib/error-reporter';
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
 }: {
@@ -24,6 +24,7 @@ export default function Error({
           We encountered an error loading this page.
         </p>
         <button
+          type="button"
           onClick={reset}
           className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-lg transition-colors"
         >

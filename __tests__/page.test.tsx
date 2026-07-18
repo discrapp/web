@@ -24,22 +24,12 @@ describe('Home (Landing Page)', () => {
   it('renders all main sections', () => {
     render(<Home />);
     expect(screen.getByRole('region', { name: /hero/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('region', { name: /how it works/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /how it works/i })).toBeInTheDocument();
     // Multiple sections contain "features" - AI-Powered Features and Features
-    expect(
-      screen.getAllByRole('region', { name: /features/i }).length
-    ).toBeGreaterThanOrEqual(1);
-    expect(
-      screen.getByRole('region', { name: /see discr. in action/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('region', { name: /protect your discs today/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('region', { name: /final call to action/i })
-    ).toBeInTheDocument();
+    expect(screen.getAllByRole('region', { name: /features/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByRole('region', { name: /see discr. in action/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /protect your discs today/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /final call to action/i })).toBeInTheDocument();
   });
 
   it('renders footer', () => {

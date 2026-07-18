@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import AppStoreBadges from './AppStoreBadges';
 
 export default function Hero() {
@@ -35,12 +35,10 @@ export default function Hero() {
           priority
           sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 300px"
         />
-        <p className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-          Get Yours Back
-        </p>
+        <p className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-white">Get Yours Back</p>
         <p className="mt-6 text-lg sm:text-xl text-zinc-200 max-w-2xl mx-auto">
-          QR code stickers and AI-powered disc identification for disc golf.
-          Manage your collection and get lost discs back.
+          QR code stickers and AI-powered disc identification for disc golf. Manage your collection
+          and get lost discs back.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-6">
